@@ -15,9 +15,10 @@ namespace DataModel
     
     public partial class MonitoreoDBEntities : DbContext
     {
-        public MonitoreoDBEntities()
-            : base("name=MonitoreoDBEntities")
+        public MonitoreoDBEntities() : base("name=MonitoreoDBEntities")
         {
+            //disable the lazy load for avoid loops
+            base.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
