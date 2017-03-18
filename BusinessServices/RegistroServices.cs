@@ -193,6 +193,15 @@ namespace BusinessServices
                 return registro.IdRegistro;
             }
         }
+        
+        //TEST*********************************************************************************************************
+        public int CreateRegistroUrl(string latitud, string longitud, string tanqueConductor,
+            string tanquePasajero, string botonPanico, string kilometraje,
+            string velocidad, string fecha, string hora, string idUsuario, string idItem)
+        {
+            return 1000;
+        }
+
 
     }
 }
