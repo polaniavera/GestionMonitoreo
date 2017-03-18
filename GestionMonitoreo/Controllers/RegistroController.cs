@@ -61,6 +61,14 @@ namespace GestionMonitoreo.Controllers
             return _registroServices.CreateRegistroUrl(latitud, longitud, tanqueConductor,
                 tanquePasajero, botonPanico, kilometraje, velocidad, fecha, hora, idUsuario, idItem);
         }
+        
+        public int Post(string latitud, string longitud, string tanqueConductor,
+            string tanquePasajero, string botonPanico, string kilometraje,
+            string velocidad, string fecha, string hora, string idUsuario, string idItem)
+        {
+            return _registroServices.CreateRegistroUrl(latitud, longitud, tanqueConductor,
+                tanquePasajero, botonPanico, kilometraje, velocidad, fecha, hora, idUsuario, idItem);
+        }
 
 
         // PUT api/registro/5
