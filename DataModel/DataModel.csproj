@@ -52,6 +52,7 @@
       <DependentUpon>MonitoreoDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="GenericRepository\GenericRepository.cs" />
+    <Compile Include="GenericRepository\RegistroCustomRepository.cs" />
     <Compile Include="Item.cs">
       <DependentUpon>MonitoreoDataModel.tt</DependentUpon>
     </Compile>
@@ -74,6 +75,7 @@
     <Compile Include="Registro.cs">
       <DependentUpon>MonitoreoDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="UnitOfWork\UnitOfWork.cs" />
     <Compile Include="Usuario.cs">
       <DependentUpon>MonitoreoDataModel.tt</DependentUpon>

@@ -155,7 +155,6 @@ namespace BusinessServices
                     var registro = _unitOfWork.RegistroRepository.GetByID(registroId);
                     if (registro != null)
                     {
-
                         _unitOfWork.RegistroRepository.Delete(registro);
                         _unitOfWork.Save();
                         scope.Complete();
@@ -165,69 +164,38 @@ namespace BusinessServices
             }
             return success;
         }
-
-        //Metodo para insertar un registro con parametros pasados por URL
-        //public int CreateRegistroUrl(decimal latitud, decimal longitud, decimal tanqueConductor,
-        //    decimal tanquePasajero, bool botonPanico, decimal kilometraje,
-        //    decimal velocidad, DateTime fecha, TimeSpan hora, int idUsuario, int idItem)
-        //{
-        //    using (var scope = new TransactionScope())
-        //    {
-        //        var registro = new Registro
-        //        {
-        //            BotonPanico = botonPanico,
-        //            Fecha = fecha,
-        //            Hora = hora,
-        //            IdItem = idItem,
-        //            IdUsuario = idUsuario,
-        //            Item = null,
-        //            Kilometraje = kilometraje,
-        //            Latitud = latitud,
-        //            Longitud = longitud,
-        //            TanqueConductor = tanqueConductor,
-        //            TanquePasajero = tanquePasajero,
-        //            Usuario = null,
-        //            Velocidad = velocidad
-        //        };
-        //        _unitOfWork.RegistroRepository.Insert(registro);
-        //        _unitOfWork.Save();
-        //        scope.Complete();
-        //        return registro.IdRegistro;
-        //    }
-        //}
         
-        //TEST*********************************************************************************************************
         public int CreateRegistroUrl(string latitud, string longitud, string tanqueConductor,
-            string tanquePasajero, string botonPanico, string velocidad,
-            string fecha, string hora, string idUsuario, string idItem)
+            string tanquePasajero, string botonPanico, string velocidad, string idUsuario, string idItem)
         {
             if (botonPanico.Equals("1"))
                 botonPanico = "true";
             else
                 botonPanico = "false";
 
-            DateTime _fecha = Convert.ToDateTime(fecha);
-            _fecha = _fecha.Date;
+            //DateTime _fecha = Convert.ToDateTime(fecha);
+            //_fecha = _fecha.Date;
+            //TimeSpan _hora = TimeSpan.Parse(hora);
             DateTime fechaActual = DateTime.Now;
-            var _hora = fechaActual.TimeOfDay;
+            var horaActual = fechaActual.TimeOfDay;
 
             using (var scope = new TransactionScope())
             {
                 var registro = new Registro
                 {
-                    BotonPanico = Convert.ToBoolean(botonPanico),
-                    Fecha = fechaActual,
-                    Hora = _hora,
-                    IdItem = Int32.Parse(idItem),
                     IdUsuario = Int32.Parse(idUsuario),
-                    Item = null,
-                    Kilometraje = 100,
+                    IdItem = Int32.Parse(idItem),
+                    Fecha = fechaActual,
+                    Hora = horaActual,
                     Latitud = Convert.ToDecimal(latitud, CultureInfo.InvariantCulture),
                     Longitud = Convert.ToDecimal(longitud, CultureInfo.InvariantCulture),
                     TanqueConductor = Convert.ToDecimal(tanqueConductor, CultureInfo.InvariantCulture),
                     TanquePasajero = Convert.ToDecimal(tanquePasajero, CultureInfo.InvariantCulture),
+                    BotonPanico = Convert.ToBoolean(botonPanico),
+                    Velocidad = Int32.Parse(velocidad),
+                    Kilometraje = 100,
                     Usuario = null,
-                    Velocidad = Int32.Parse(velocidad)
+                    Item = null
                 };
                 _unitOfWork.RegistroRepository.Insert(registro);
                 _unitOfWork.Save();
@@ -241,22 +209,41 @@ namespace BusinessServices
         /// Fetches all the registros by IdUsuario.
         /// </summary>
         /// <returns></returns>
-        //public IEnumerable<RegistroEntity> GetByIdUsuarioList(int idUsuario, DateTime fecha)
-        //{
-        //    var registros = _unitOfWork.RegistroCustomRepository.GetByIdUsuario().ToList();
-        //    if (registros.Any())
-        //    {
-        //        Mapper.Initialize(cfg =>
-        //        {
-        //            cfg.CreateMap<Registro, RegistroEntity>();
-        //        });
-        //        var registrosModel = Mapper.Map<List<Registro>, List<RegistroEntity>>(registros);
+        public IEnumerable<RegistroEntity> GetByIdUsuario(string idUsuario, string fecha)
+        {
+            var registros = _unitOfWork.RegistroCustomRepository.GetByIdUsuario(idUsuario, fecha).ToList();
+            if (registros.Any())
+            {
+                Mapper.Initialize(cfg =>
+                {
+                    cfg.CreateMap<Registro, RegistroEntity>();
+                });
+                var registrosModel = Mapper.Map<List<Registro>, List<RegistroEntity>>(registros);
 
-        //        return registrosModel;
-        //    }
-        //    return null;
-        //}
-        
+                return registrosModel;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Fetches all the registros by IdItem.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<RegistroEntity> GetByIdItem(string idUsuario, string idItem, string fecha)
+        {
+            var registros = _unitOfWork.RegistroCustomRepository.GetByIdItem(idUsuario, idItem, fecha).ToList();
+            if (registros.Any())
+            {
+                Mapper.Initialize(cfg =>
+                {
+                    cfg.CreateMap<Registro, RegistroEntity>();
+                });
+                var registrosModel = Mapper.Map<List<Registro>, List<RegistroEntity>>(registros);
+
+                return registrosModel;
+            }
+            return null;
+        }
 
     }
 }

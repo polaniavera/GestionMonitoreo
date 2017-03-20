@@ -9,6 +9,7 @@ using System.Web.Http;
 
 namespace GestionMonitoreo.Controllers
 {
+    [RoutePrefix("api/registro")]
     public class RegistroController : ApiController
     {
 
@@ -49,20 +50,32 @@ namespace GestionMonitoreo.Controllers
         }
 
         //GET api/registro/5/2017-03-03
-        //public HttpResponseMessage GetByIdUsuarioList(int idUsuario, DateTime fecha)
-        //{
-        //    //Pasar del Front
-        //    fecha = new DateTime(2017, 03, 03);
+        [Route("getByUser/{idUsuario?}/{fecha?}")]
+        public HttpResponseMessage GetByIdUsuario(string idUsuario, string fecha)
+        {
+            var registros = _registroServices.GetByIdUsuario(idUsuario, fecha);
+            if (registros != null)
+            {
+                var registroEntities = registros as List<RegistroEntity> ?? registros.ToList();
+                if (registroEntities.Any())
+                    return Request.CreateResponse(HttpStatusCode.OK, registroEntities);
+            }
+            return Request.CreateErrorResponse(HttpStatusCode.NotFound, "No registros found for this idUsuario and Date");
+        }
 
-        //    var registros = _registroServices.GetByIdUsuarioList(idUsuario, fecha);
-        //    if (registros != null)
-        //    {
-        //        var registroEntities = registros as List<RegistroEntity> ?? registros.ToList();
-        //        if (registroEntities.Any())
-        //            return Request.CreateResponse(HttpStatusCode.OK, registroEntities);
-        //    }
-        //    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "No registros found for this idUsuario and Date");
-        //}
+        //GET api/registro/1//2/2017-03-03
+        [Route("getByItem/{idUsuario?}/{idItem?}/{fecha?}")]
+        public HttpResponseMessage GetByIdItem(string idUsuario, string idItem, string fecha)
+        {
+            var registros = _registroServices.GetByIdItem(idUsuario, idItem, fecha);
+            if (registros != null)
+            {
+                var registroEntities = registros as List<RegistroEntity> ?? registros.ToList();
+                if (registroEntities.Any())
+                    return Request.CreateResponse(HttpStatusCode.OK, registroEntities);
+            }
+            return Request.CreateErrorResponse(HttpStatusCode.NotFound, "No registros found for this idUsuario, idItem and Date");
+        }
 
         // POST api/registro
         //public int Post([FromBody] RegistroEntity registroEntity)
@@ -70,22 +83,14 @@ namespace GestionMonitoreo.Controllers
         //    return _registroServices.CreateRegistro(registroEntity);
         //}
 
-        //public int Post(decimal latitud, decimal longitud, decimal tanqueConductor,
-          //  decimal tanquePasajero, bool botonPanico, decimal kilometraje,
-            //decimal velocidad, DateTime fecha, TimeSpan hora, int idUsuario, int idItem)
-        //{
-        //    return _registroServices.CreateRegistroUrl(latitud, longitud, tanqueConductor,
-        //        tanquePasajero, botonPanico, kilometraje, velocidad, fecha, hora, idUsuario, idItem);
-        //}
-        
+        // POST api/registro/create/...
+        [Route("create/{latitud?}/{longitud?}/{tanqueConductor?}/{tanquePasajero?}/{botonPanico?}/{velocidad?}/{idUsuario?}/{idItem?}")]
         public int Post(string latitud, string longitud, string tanqueConductor,
-            string tanquePasajero, string botonPanico, string velocidad,
-            string fecha, string hora, string idUsuario, string idItem)
+            string tanquePasajero, string botonPanico, string velocidad, string idUsuario, string idItem)
         {
             return _registroServices.CreateRegistroUrl(latitud, longitud, tanqueConductor,
-                tanquePasajero, botonPanico, velocidad, fecha, hora, idUsuario, idItem);
+                tanquePasajero, botonPanico, velocidad, idUsuario, idItem);
         }
-
 
         // PUT api/registro/5
         public bool Put(int id, [FromBody]RegistroEntity registroEntity)

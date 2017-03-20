@@ -13,7 +13,7 @@ namespace DataModel.UnitOfWork
     /// <summary>
     /// Unit of Work class responsible for DB transactions
     /// </summary>
-    public class UnitOfWork : IDisposable
+    public class UnitOfWork : IUnitOfWork
     {
         #region Private member variables...
 
@@ -22,6 +22,7 @@ namespace DataModel.UnitOfWork
         private GenericRepository<Usuario> _usuarioRepository;
         private GenericRepository<Item> _itemRepository;
         private GenericRepository<Documento> _documentoRepository;
+        private RegistroCustomRepository _registroCustomRepository; 
         #endregion
 
         public UnitOfWork()
@@ -82,6 +83,20 @@ namespace DataModel.UnitOfWork
                 return _documentoRepository;
             }
         }
+
+        /// <summary>
+        /// Get/Set Property for registro repository custom.
+        /// </summary>
+        public RegistroCustomRepository RegistroCustomRepository
+        {
+            get
+            {
+                if (this._registroCustomRepository == null)
+                    this._registroCustomRepository = new RegistroCustomRepository(_context);
+                return _registroCustomRepository;
+            }
+        }
+
         #endregion
 
         #region Public member methods...
