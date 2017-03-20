@@ -201,7 +201,7 @@ namespace BusinessServices
             string tanquePasajero, string botonPanico, string kilometraje,
             string velocidad, string fecha, string hora, string idUsuario, string idItem)
         {
-            if (botonPanico.Equals(1))
+            if (botonPanico.Equals("1"))
                 botonPanico = "true";
             else
                 botonPanico = "false";
