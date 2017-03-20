@@ -13,6 +13,7 @@ namespace GestionMonitoreo
     {
         protected void Application_Start()
         {
+            //Habilitar serializacion de objetos anidados
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 
             AreaRegistration.RegisterAllAreas();

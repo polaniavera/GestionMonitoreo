@@ -165,6 +165,7 @@ namespace BusinessServices
             return success;
         }
 
+        //Metodo para insertar un registro con parametros pasados por URL
         public int CreateRegistroUrl(decimal latitud, decimal longitud, decimal tanqueConductor,
             decimal tanquePasajero, bool botonPanico, decimal kilometraje,
             decimal velocidad, DateTime fecha, TimeSpan hora, int idUsuario, int idItem)
@@ -193,6 +194,27 @@ namespace BusinessServices
                 return registro.IdRegistro;
             }
         }
+
+        /// <summary>
+        /// Fetches all the registros by IdUsuario.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<RegistroEntity> GetByIdUsuarioList(int idUsuario, DateTime fecha)
+        {
+            var registros = _unitOfWork.RegistroCustomRepository.GetByIdUsuario().ToList();
+            if (registros.Any())
+            {
+                Mapper.Initialize(cfg =>
+                {
+                    cfg.CreateMap<Registro, RegistroEntity>();
+                });
+                var registrosModel = Mapper.Map<List<Registro>, List<RegistroEntity>>(registros);
+
+                return registrosModel;
+            }
+            return null;
+        }
+        
 
     }
 }

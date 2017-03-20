@@ -48,6 +48,22 @@ namespace GestionMonitoreo.Controllers
             return Request.CreateErrorResponse(HttpStatusCode.NotFound, "No registro found for this id");
         }
 
+        //GET api/registro/5/2017-03-03
+        public HttpResponseMessage GetByIdUsuarioList(int idUsuario, DateTime fecha)
+        {
+            //Pasar del Front
+            fecha = new DateTime(2017, 03, 03);
+
+            var registros = _registroServices.GetByIdUsuarioList(idUsuario, fecha);
+            if (registros != null)
+            {
+                var registroEntities = registros as List<RegistroEntity> ?? registros.ToList();
+                if (registroEntities.Any())
+                    return Request.CreateResponse(HttpStatusCode.OK, registroEntities);
+            }
+            return Request.CreateErrorResponse(HttpStatusCode.NotFound, "No registros found for this idUsuario and Date");
+        }
+
         // POST api/registro
         //public int Post([FromBody] RegistroEntity registroEntity)
         //{
