@@ -70,9 +70,17 @@ namespace GestionMonitoreo.Controllers
         //    return _registroServices.CreateRegistro(registroEntity);
         //}
 
-        public int Post(decimal latitud, decimal longitud, decimal tanqueConductor,
-            decimal tanquePasajero, bool botonPanico, decimal kilometraje,
-            decimal velocidad, DateTime fecha, TimeSpan hora, int idUsuario, int idItem)
+        //public int Post(decimal latitud, decimal longitud, decimal tanqueConductor,
+          //  decimal tanquePasajero, bool botonPanico, decimal kilometraje,
+            //decimal velocidad, DateTime fecha, TimeSpan hora, int idUsuario, int idItem)
+        //{
+        //    return _registroServices.CreateRegistroUrl(latitud, longitud, tanqueConductor,
+        //        tanquePasajero, botonPanico, kilometraje, velocidad, fecha, hora, idUsuario, idItem);
+        //}
+        
+        public int Post(string latitud, string longitud, string tanqueConductor,
+            string tanquePasajero, string botonPanico, string kilometraje,
+            string velocidad, string fecha, string hora, string idUsuario, string idItem)
         {
             return _registroServices.CreateRegistroUrl(latitud, longitud, tanqueConductor,
                 tanquePasajero, botonPanico, kilometraje, velocidad, fecha, hora, idUsuario, idItem);
