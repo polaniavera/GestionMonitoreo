@@ -17,7 +17,6 @@ namespace DataModel
     {
         public MonitoreoDBEntities() : base("name=MonitoreoDBEntities")
         {
-            //disable the lazy load for avoid loops
             base.Configuration.LazyLoadingEnabled = false;
         }
     

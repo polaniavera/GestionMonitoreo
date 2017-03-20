@@ -34,8 +34,8 @@
           <Property Name="TanqueConductor" Type="decimal" Precision="5" Scale="2" />
           <Property Name="TanquePasajero" Type="decimal" Precision="5" Scale="2" />
           <Property Name="BotonPanico" Type="bit" />
-          <Property Name="Kilometraje" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="Velocidad" Type="decimal" Precision="6" Scale="2" />
+          <Property Name="Kilometraje" Type="int" />
+          <Property Name="Velocidad" Type="int" />
           <Property Name="Fecha" Type="date" />
           <Property Name="Hora" Type="time" Precision="7" />
           <Property Name="IdUsuario" Type="int" />
@@ -161,8 +161,8 @@
           <Property Name="TanqueConductor" Type="Decimal" Precision="5" Scale="2" />
           <Property Name="TanquePasajero" Type="Decimal" Precision="5" Scale="2" />
           <Property Name="BotonPanico" Type="Boolean" />
-          <Property Name="Kilometraje" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="Velocidad" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="Kilometraje" Type="Int32" />
+          <Property Name="Velocidad" Type="Int32" />
           <Property Name="Fecha" Type="DateTime" Precision="0" />
           <Property Name="Hora" Type="Time" Precision="7" />
           <Property Name="IdUsuario" Type="Int32" />

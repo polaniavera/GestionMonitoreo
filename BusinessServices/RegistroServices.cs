@@ -206,23 +206,28 @@ namespace BusinessServices
             else
                 botonPanico = "false";
 
+            DateTime _fecha = Convert.ToDateTime(fecha);
+            _fecha = _fecha.Date;
+            DateTime fechaActual = DateTime.Now;
+            var _hora = fechaActual.TimeOfDay;
+
             using (var scope = new TransactionScope())
             {
                 var registro = new Registro
                 {
                     BotonPanico = Convert.ToBoolean(botonPanico),
-                    Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd", CultureInfo.InvariantCulture),
-                    Hora = TimeSpan.Parse(hora),
+                    Fecha = fechaActual,
+                    Hora = _hora,
                     IdItem = Int32.Parse(idItem),
                     IdUsuario = Int32.Parse(idUsuario),
                     Item = null,
-                    Kilometraje = Convert.ToDecimal(kilometraje, CultureInfo.InvariantCulture),
+                    Kilometraje = Int32.Parse(kilometraje),
                     Latitud = Convert.ToDecimal(latitud, CultureInfo.InvariantCulture),
                     Longitud = Convert.ToDecimal(longitud, CultureInfo.InvariantCulture),
                     TanqueConductor = Convert.ToDecimal(tanqueConductor, CultureInfo.InvariantCulture),
                     TanquePasajero = Convert.ToDecimal(tanquePasajero, CultureInfo.InvariantCulture),
                     Usuario = null,
-                    Velocidad = Convert.ToDecimal(velocidad, CultureInfo.InvariantCulture),
+                    Velocidad = Int32.Parse(velocidad)
                 };
                 _unitOfWork.RegistroRepository.Insert(registro);
                 _unitOfWork.Save();
