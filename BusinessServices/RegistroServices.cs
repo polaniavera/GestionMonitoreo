@@ -4,6 +4,7 @@ using DataModel;
 using DataModel.UnitOfWork;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Transactions;
 
@@ -166,27 +167,57 @@ namespace BusinessServices
         }
 
         //Metodo para insertar un registro con parametros pasados por URL
-        public int CreateRegistroUrl(decimal latitud, decimal longitud, decimal tanqueConductor,
-            decimal tanquePasajero, bool botonPanico, decimal kilometraje,
-            decimal velocidad, DateTime fecha, TimeSpan hora, int idUsuario, int idItem)
+        //public int CreateRegistroUrl(decimal latitud, decimal longitud, decimal tanqueConductor,
+        //    decimal tanquePasajero, bool botonPanico, decimal kilometraje,
+        //    decimal velocidad, DateTime fecha, TimeSpan hora, int idUsuario, int idItem)
+        //{
+        //    using (var scope = new TransactionScope())
+        //    {
+        //        var registro = new Registro
+        //        {
+        //            BotonPanico = botonPanico,
+        //            Fecha = fecha,
+        //            Hora = hora,
+        //            IdItem = idItem,
+        //            IdUsuario = idUsuario,
+        //            Item = null,
+        //            Kilometraje = kilometraje,
+        //            Latitud = latitud,
+        //            Longitud = longitud,
+        //            TanqueConductor = tanqueConductor,
+        //            TanquePasajero = tanquePasajero,
+        //            Usuario = null,
+        //            Velocidad = velocidad
+        //        };
+        //        _unitOfWork.RegistroRepository.Insert(registro);
+        //        _unitOfWork.Save();
+        //        scope.Complete();
+        //        return registro.IdRegistro;
+        //    }
+        //}
+        
+        //TEST*********************************************************************************************************
+        public int CreateRegistroUrl(string latitud, string longitud, string tanqueConductor,
+            string tanquePasajero, string botonPanico, string kilometraje,
+            string velocidad, string fecha, string hora, string idUsuario, string idItem)
         {
             using (var scope = new TransactionScope())
             {
                 var registro = new Registro
                 {
-                    BotonPanico = botonPanico,
-                    Fecha = fecha,
-                    Hora = hora,
-                    IdItem = idItem,
-                    IdUsuario = idUsuario,
+                    BotonPanico = Convert.ToBoolean(botonPanico),
+                    Fecha = DateTime.ParseExact(fecha, "yyyy-MM-dd", CultureInfo.InvariantCulture),
+                    Hora = TimeSpan.Parse(hora),
+                    IdItem = Int32.Parse(idItem),
+                    IdUsuario = Int32.Parse(idUsuario),
                     Item = null,
-                    Kilometraje = kilometraje,
-                    Latitud = latitud,
-                    Longitud = longitud,
-                    TanqueConductor = tanqueConductor,
-                    TanquePasajero = tanquePasajero,
+                    Kilometraje = Convert.ToDecimal(kilometraje, CultureInfo.InvariantCulture),
+                    Latitud = Convert.ToDecimal(latitud, CultureInfo.InvariantCulture),
+                    Longitud = Convert.ToDecimal(longitud, CultureInfo.InvariantCulture),
+                    TanqueConductor = Convert.ToDecimal(tanqueConductor, CultureInfo.InvariantCulture),
+                    TanquePasajero = Convert.ToDecimal(tanquePasajero, CultureInfo.InvariantCulture),
                     Usuario = null,
-                    Velocidad = velocidad
+                    Velocidad = Convert.ToDecimal(velocidad, CultureInfo.InvariantCulture),
                 };
                 _unitOfWork.RegistroRepository.Insert(registro);
                 _unitOfWork.Save();
@@ -194,35 +225,27 @@ namespace BusinessServices
                 return registro.IdRegistro;
             }
         }
-        
-        //TEST*********************************************************************************************************
-        public int CreateRegistroUrl(string latitud, string longitud, string tanqueConductor,
-            string tanquePasajero, string botonPanico, string kilometraje,
-            string velocidad, string fecha, string hora, string idUsuario, string idItem)
-        {
-            return 1000;
-        }
 
 
         /// <summary>
         /// Fetches all the registros by IdUsuario.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<RegistroEntity> GetByIdUsuarioList(int idUsuario, DateTime fecha)
-        {
-            var registros = _unitOfWork.RegistroCustomRepository.GetByIdUsuario().ToList();
-            if (registros.Any())
-            {
-                Mapper.Initialize(cfg =>
-                {
-                    cfg.CreateMap<Registro, RegistroEntity>();
-                });
-                var registrosModel = Mapper.Map<List<Registro>, List<RegistroEntity>>(registros);
+        //public IEnumerable<RegistroEntity> GetByIdUsuarioList(int idUsuario, DateTime fecha)
+        //{
+        //    var registros = _unitOfWork.RegistroCustomRepository.GetByIdUsuario().ToList();
+        //    if (registros.Any())
+        //    {
+        //        Mapper.Initialize(cfg =>
+        //        {
+        //            cfg.CreateMap<Registro, RegistroEntity>();
+        //        });
+        //        var registrosModel = Mapper.Map<List<Registro>, List<RegistroEntity>>(registros);
 
-                return registrosModel;
-            }
-            return null;
-        }
+        //        return registrosModel;
+        //    }
+        //    return null;
+        //}
         
 
     }
