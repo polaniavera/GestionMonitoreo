@@ -198,8 +198,8 @@ namespace BusinessServices
         
         //TEST*********************************************************************************************************
         public int CreateRegistroUrl(string latitud, string longitud, string tanqueConductor,
-            string tanquePasajero, string botonPanico, string kilometraje,
-            string velocidad, string fecha, string hora, string idUsuario, string idItem)
+            string tanquePasajero, string botonPanico, string velocidad,
+            string fecha, string hora, string idUsuario, string idItem)
         {
             if (botonPanico.Equals("1"))
                 botonPanico = "true";
@@ -221,7 +221,7 @@ namespace BusinessServices
                     IdItem = Int32.Parse(idItem),
                     IdUsuario = Int32.Parse(idUsuario),
                     Item = null,
-                    Kilometraje = Int32.Parse(kilometraje),
+                    Kilometraje = 100,
                     Latitud = Convert.ToDecimal(latitud, CultureInfo.InvariantCulture),
                     Longitud = Convert.ToDecimal(longitud, CultureInfo.InvariantCulture),
                     TanqueConductor = Convert.ToDecimal(tanqueConductor, CultureInfo.InvariantCulture),

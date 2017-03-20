@@ -19,7 +19,7 @@ namespace BusinessServices
         //    decimal tanquePasajero, bool botonPanico, decimal kilometraje,
         //    decimal velocidad, DateTime fecha, TimeSpan hora, int idUsuario, int idItem);
          int CreateRegistroUrl(string latitud, string longitud, string tanqueConductor,
-            string tanquePasajero, string botonPanico, string kilometraje,
-            string velocidad, string fecha, string hora, string idUsuario, string idItem);
+            string tanquePasajero, string botonPanico, string velocidad,
+            string fecha, string hora, string idUsuario, string idItem);
     }
 }
