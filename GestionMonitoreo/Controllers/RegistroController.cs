@@ -20,9 +20,9 @@ namespace GestionMonitoreo.Controllers
         /// <summary>
         /// Public constructor to initialize registro service instance
         /// </summary>
-        public RegistroController()
+        public RegistroController(IRegistroServices registroServices)
         {
-            _registroServices = new RegistroServices();
+            _registroServices = registroServices;
         }
 
         #endregion
@@ -49,7 +49,7 @@ namespace GestionMonitoreo.Controllers
             return Request.CreateErrorResponse(HttpStatusCode.NotFound, "No registro found for this id");
         }
 
-        //GET api/registro/5/2017-03-03
+        //GET api/registro/getByUser/5/2017-03-03
         [Route("getByUser/{idUsuario?}/{fecha?}")]
         public HttpResponseMessage GetByIdUsuario(string idUsuario, string fecha)
         {
@@ -63,7 +63,7 @@ namespace GestionMonitoreo.Controllers
             return Request.CreateErrorResponse(HttpStatusCode.NotFound, "No registros found for this idUsuario and Date");
         }
 
-        //GET api/registro/1//2/2017-03-03
+        //GET api/registro/getByItem/1/2/2017-03-03
         [Route("getByItem/{idUsuario?}/{idItem?}/{fecha?}")]
         public HttpResponseMessage GetByIdItem(string idUsuario, string idItem, string fecha)
         {
@@ -77,20 +77,21 @@ namespace GestionMonitoreo.Controllers
             return Request.CreateErrorResponse(HttpStatusCode.NotFound, "No registros found for this idUsuario, idItem and Date");
         }
 
-        // POST api/registro
-        //public int Post([FromBody] RegistroEntity registroEntity)
-        //{
-        //    return _registroServices.CreateRegistro(registroEntity);
-        //}
+        // POST api/registro/create
+        [Route("create")]
+        public int Post([FromBody] RegistroEntity registroEntity)
+        {
+            return _registroServices.CreateRegistro(registroEntity);
+        }
 
         // POST api/registro/create/...
-        [Route("create/{latitud?}/{longitud?}/{tanqueConductor?}/{tanquePasajero?}/{botonPanico?}/{velocidad?}/{idUsuario?}/{idItem?}")]
-        public int Post(string latitud, string longitud, string tanqueConductor,
-            string tanquePasajero, string botonPanico, string velocidad, string idUsuario, string idItem)
-        {
-            return _registroServices.CreateRegistroUrl(latitud, longitud, tanqueConductor,
-                tanquePasajero, botonPanico, velocidad, idUsuario, idItem);
-        }
+        //[Route("create/{latitud?}/{longitud?}/{tanqueConductor?}/{tanquePasajero?}/{botonPanico?}/{velocidad?}/{idUsuario?}/{idItem?}")]
+        //public int Post(string latitud, string longitud, string tanqueConductor,
+        //    string tanquePasajero, string botonPanico, string velocidad, string idUsuario, string idItem)
+        //{
+        //    return _registroServices.CreateRegistroUrl(latitud, longitud, tanqueConductor,
+        //        tanquePasajero, botonPanico, velocidad, idUsuario, idItem);
+        //}
 
         // PUT api/registro/5
         public bool Put(int id, [FromBody]RegistroEntity registroEntity)
@@ -103,6 +104,7 @@ namespace GestionMonitoreo.Controllers
         }
 
         // DELETE api/registro/5
+        [Route("delete/{id?}")]
         public bool Delete(int id)
         {
             if (id > 0)

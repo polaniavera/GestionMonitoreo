@@ -20,9 +20,9 @@ namespace BusinessServices
         /// <summary>
         /// Public constructor.
         /// </summary>
-        public RegistroServices()
+        public RegistroServices(UnitOfWork unitOfWork)
         {
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = unitOfWork;
         }
 
         /// <summary>

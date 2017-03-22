@@ -16,6 +16,9 @@ namespace GestionMonitoreo
             //Habilitar serializacion de objetos anidados
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 
+            //Initialise Bootstrapper
+            Bootstrapper.Initialise();
+
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
