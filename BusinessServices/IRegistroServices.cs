@@ -12,6 +12,7 @@ namespace BusinessServices
         RegistroEntity GetRegistroById(int registroId);
         IEnumerable<RegistroEntity> GetAllRegistros();
         int CreateRegistro(RegistroEntity registroEntity);
+        int CreateRegistroPrueba(Test testEntity);
         bool UpdateRegistro(int registroId, RegistroEntity registroEntity);
         bool DeleteRegistro(int registroId);
         IEnumerable<RegistroEntity> GetByIdUsuario(string idUsuario, string fecha);

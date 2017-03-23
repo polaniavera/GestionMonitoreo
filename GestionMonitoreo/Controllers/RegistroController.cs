@@ -88,9 +88,7 @@ namespace GestionMonitoreo.Controllers
         [Route("prueba")]
         public int Prueba([FromBody] Test testEntity)
         {
-            var _nombre = testEntity.nombre;
-
-            return 1;
+            return _registroServices.CreateRegistroPrueba(testEntity);
         }
 
 

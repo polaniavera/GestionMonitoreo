@@ -245,5 +245,39 @@ namespace BusinessServices
             return null;
         }
 
+
+
+        /// <summary>
+        /// Creates a registro
+        /// </summary>
+        /// <param name="registroEntity"></param>
+        /// <returns></returns>
+        public int CreateRegistroPrueba(Test testEntity)
+        {
+            using (var scope = new TransactionScope())
+            {
+                var registro = new Registro
+                {
+                    BotonPanico = true,
+                    Fecha = DateTime.Now,
+                    Hora = DateTime.Now.TimeOfDay,
+                    IdItem = 2,
+                    IdUsuario = 1,
+                    Item = null,
+                    Kilometraje = testEntity.kilometraje,
+                    Latitud = Convert.ToDecimal("11.11", CultureInfo.InvariantCulture),
+                    Longitud = Convert.ToDecimal("99.99", CultureInfo.InvariantCulture),
+                    TanqueConductor = Convert.ToDecimal("20.2", CultureInfo.InvariantCulture),
+                    TanquePasajero = Convert.ToDecimal("11.1", CultureInfo.InvariantCulture),
+                    Usuario = null,
+                    Velocidad = 99
+                };
+                _unitOfWork.RegistroRepository.Insert(registro);
+                _unitOfWork.Save();
+                scope.Complete();
+                return registro.IdRegistro;
+            }
+        }
+
     }
 }

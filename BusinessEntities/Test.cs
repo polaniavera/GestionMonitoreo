@@ -8,6 +8,6 @@ namespace BusinessEntities
 {
     public class Test
     {
-        public string nombre { get; set; }
+        public int kilometraje { get; set; }
     }
 }
