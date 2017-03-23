@@ -84,6 +84,16 @@ namespace GestionMonitoreo.Controllers
             return _registroServices.CreateRegistro(registroEntity);
         }
 
+
+        [Route("prueba")]
+        public int Prueba([FromBody] Test testEntity)
+        {
+            var _nombre = testEntity.nombre;
+
+            return 1;
+        }
+
+
         // POST api/registro/create/...
         //[Route("create/{latitud?}/{longitud?}/{tanqueConductor?}/{tanquePasajero?}/{botonPanico?}/{velocidad?}/{idUsuario?}/{idItem?}")]
         //public int Post(string latitud, string longitud, string tanqueConductor,
