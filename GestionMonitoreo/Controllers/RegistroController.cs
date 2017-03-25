@@ -81,6 +81,10 @@ namespace GestionMonitoreo.Controllers
         [Route("create")]
         public int Post([FromBody] RegistroEntity registroEntity)
         {
+            if(registroEntity==null)
+            {
+                return 0;
+            }
             return _registroServices.CreateRegistro(registroEntity);
         }
 
