@@ -4,15 +4,15 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4f3d2bbf6a954bfcbb2290147abdfd52" Name="Diagram1">
-        <EntityTypeShape EntityType="MonitoreoDBModel.Documento" Width="1.5" PointX="0.75" PointY="5.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="MonitoreoDBModel.Item" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="MonitoreoDBModel.Registro" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="MonitoreoDBModel.Usuario" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
-        <AssociationConnector Association="MonitoreoDBModel.FK_Item_Documento" ManuallyRouted="false" />
-        <AssociationConnector Association="MonitoreoDBModel.FK_Item_Usuario" ManuallyRouted="false" />
-        <AssociationConnector Association="MonitoreoDBModel.FK_Registro_Item" ManuallyRouted="false" />
-        <AssociationConnector Association="MonitoreoDBModel.FK_Registro_Usuario" ManuallyRouted="false" />
+      <Diagram DiagramId="94625a721a5d4aceaee1e141716b66a1" Name="Diagram1">
+        <EntityTypeShape EntityType="MonitoreoDbModel.Documento" Width="1.5" PointX="5.25" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MonitoreoDbModel.Item" Width="1.5" PointX="3" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MonitoreoDbModel.Registro" Width="1.5" PointX="8.25" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MonitoreoDbModel.Usuario" Width="1.5" PointX="0.75" PointY="3.25" IsExpanded="true" />
+        <AssociationConnector Association="MonitoreoDbModel.FK_Documento_Item" ManuallyRouted="false" />
+        <AssociationConnector Association="MonitoreoDbModel.FK_Item_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="MonitoreoDbModel.FK_Registro_Item" ManuallyRouted="false" />
+        <AssociationConnector Association="MonitoreoDbModel.FK_Registro_Usuario" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

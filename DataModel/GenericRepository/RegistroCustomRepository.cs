@@ -11,7 +11,7 @@ namespace DataModel.GenericRepository
     public class RegistroCustomRepository
     {
         #region Private member variables...
-        internal MonitoreoDBEntities Context;
+        internal MonitoreoDbEntities Context;
         internal DbSet<Registro> DbSet;
         #endregion
 
@@ -20,7 +20,7 @@ namespace DataModel.GenericRepository
         /// Public Constructor,initializes privately declared local variables.
         /// </summary>
         /// <param name="context"></param>
-        public RegistroCustomRepository(MonitoreoDBEntities context)
+        public RegistroCustomRepository(MonitoreoDbEntities context)
         {
             this.Context = context;
             this.DbSet = context.Set<Registro>();

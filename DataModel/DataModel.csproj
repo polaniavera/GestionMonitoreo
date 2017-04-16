@@ -98,6 +98,12 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Resolver\Resolver.csproj">
+      <Project>{b6ddcd2c-62ad-4764-a0f8-98b8d9f69daa}</Project>
+      <Name>Resolver</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="MonitoreoDataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>MonitoreoDataModel.edmx</DependentUpon>
@@ -108,12 +114,6 @@
       <DependentUpon>MonitoreoDataModel.edmx</DependentUpon>
       <LastGenOutput>MonitoreoDataModel.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Resolver\Resolver.csproj">
-      <Project>{b6ddcd2c-62ad-4764-a0f8-98b8d9f69daa}</Project>
-      <Name>Resolver</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -17,7 +17,7 @@ namespace DataModel.UnitOfWork
     {
         #region Private member variables...
 
-        private MonitoreoDBEntities _context = null;
+        private MonitoreoDbEntities _context = null;
         private GenericRepository<Registro> _registroRepository;
         private GenericRepository<Usuario> _usuarioRepository;
         private GenericRepository<Item> _itemRepository;
@@ -27,7 +27,7 @@ namespace DataModel.UnitOfWork
 
         public UnitOfWork()
         {
-            _context = new MonitoreoDBEntities();
+            _context = new MonitoreoDbEntities();
         }
 
         #region Public Repository Creation properties...

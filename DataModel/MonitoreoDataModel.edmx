@@ -4,12 +4,13 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MonitoreoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="MonitoreoDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Documento">
           <Key>
             <PropertyRef Name="IdDocumento" />
           </Key>
-          <Property Name="IdDocumento" Type="int" Nullable="false" />
+          <Property Name="IdDocumento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdItem" Type="int" />
           <Property Name="FechaInicio" Type="date" />
           <Property Name="FechaFin" Type="date" />
           <Property Name="IdTipoDocumento" Type="int" />
@@ -18,50 +19,49 @@
           <Key>
             <PropertyRef Name="IdItem" />
           </Key>
-          <Property Name="IdItem" Type="int" Nullable="false" />
-          <Property Name="Placa" Type="varchar" MaxLength="8" />
-          <Property Name="Informacion" Type="varchar" MaxLength="250" />
+          <Property Name="IdItem" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdUsuario" Type="int" />
-          <Property Name="IdDocumento" Type="int" />
-          <Property Name="IdTipo" Type="int" />
+          <Property Name="IdTipoItem" Type="int" />
+          <Property Name="Placa" Type="varchar" MaxLength="50" />
+          <Property Name="Informacion" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Registro">
           <Key>
             <PropertyRef Name="IdRegistro" />
           </Key>
-          <Property Name="Latitud" Type="decimal" Precision="8" Scale="6" />
-          <Property Name="Longitud" Type="decimal" Precision="8" Scale="6" />
-          <Property Name="TanqueConductor" Type="decimal" Precision="5" Scale="2" />
-          <Property Name="TanquePasajero" Type="decimal" Precision="5" Scale="2" />
-          <Property Name="BotonPanico" Type="bit" />
-          <Property Name="Kilometraje" Type="int" />
-          <Property Name="Velocidad" Type="int" />
-          <Property Name="Fecha" Type="date" />
-          <Property Name="Hora" Type="time" Precision="7" />
+          <Property Name="IdRegistro" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdUsuario" Type="int" />
           <Property Name="IdItem" Type="int" />
-          <Property Name="IdRegistro" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Latitud" Type="decimal" Precision="8" Scale="6" />
+          <Property Name="Longitud" Type="decimal" Precision="8" Scale="6" />
+          <Property Name="TanqueConductor" Type="decimal" Precision="4" Scale="1" />
+          <Property Name="TanquePasajero" Type="decimal" Precision="4" Scale="1" />
+          <Property Name="Kilometraje" Type="int" />
+          <Property Name="Velocidad" Type="int" />
+          <Property Name="BotonPanico" Type="bit" />
+          <Property Name="Fecha" Type="date" />
+          <Property Name="Hora" Type="time" Precision="7" />
         </EntityType>
         <EntityType Name="Usuario">
           <Key>
             <PropertyRef Name="IdUsuario" />
           </Key>
-          <Property Name="IdUsuario" Type="int" Nullable="false" />
-          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Apellido" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Telefono" Type="decimal" Precision="15" Scale="0" Nullable="false" />
+          <Property Name="IdUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="Apellido" Type="varchar" MaxLength="50" />
+          <Property Name="Telefono" Type="decimal" Precision="18" Scale="0" />
           <Property Name="Empresa" Type="varchar" MaxLength="50" />
           <Property Name="Correo" Type="varchar" MaxLength="50" />
         </EntityType>
-        <Association Name="FK_Item_Documento">
-          <End Role="Documento" Type="Self.Documento" Multiplicity="0..1" />
-          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+        <Association Name="FK_Documento_Item">
+          <End Role="Item" Type="Self.Item" Multiplicity="0..1" />
+          <End Role="Documento" Type="Self.Documento" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Documento">
-              <PropertyRef Name="IdDocumento" />
+            <Principal Role="Item">
+              <PropertyRef Name="IdItem" />
             </Principal>
-            <Dependent Role="Item">
-              <PropertyRef Name="IdDocumento" />
+            <Dependent Role="Documento">
+              <PropertyRef Name="IdItem" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -101,14 +101,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="MonitoreoDBModelStoreContainer">
+        <EntityContainer Name="MonitoreoDbModelStoreContainer">
           <EntitySet Name="Documento" EntityType="Self.Documento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Item" EntityType="Self.Item" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Registro" EntityType="Self.Registro" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Item_Documento" Association="Self.FK_Item_Documento">
-            <End Role="Documento" EntitySet="Documento" />
+          <AssociationSet Name="FK_Documento_Item" Association="Self.FK_Documento_Item">
             <End Role="Item" EntitySet="Item" />
+            <End Role="Documento" EntitySet="Documento" />
           </AssociationSet>
           <AssociationSet Name="FK_Item_Usuario" Association="Self.FK_Item_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
@@ -127,28 +127,28 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="MonitoreoDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="MonitoreoDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Documento">
           <Key>
             <PropertyRef Name="IdDocumento" />
           </Key>
-          <Property Name="IdDocumento" Type="Int32" Nullable="false" />
+          <Property Name="IdDocumento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdItem" Type="Int32" />
           <Property Name="FechaInicio" Type="DateTime" Precision="0" />
           <Property Name="FechaFin" Type="DateTime" Precision="0" />
           <Property Name="IdTipoDocumento" Type="Int32" />
-          <NavigationProperty Name="Item" Relationship="Self.FK_Item_Documento" FromRole="Documento" ToRole="Item" />
+          <NavigationProperty Name="Item" Relationship="Self.FK_Documento_Item" FromRole="Documento" ToRole="Item" />
         </EntityType>
         <EntityType Name="Item">
           <Key>
             <PropertyRef Name="IdItem" />
           </Key>
-          <Property Name="IdItem" Type="Int32" Nullable="false" />
-          <Property Name="Placa" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
-          <Property Name="Informacion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="IdItem" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdUsuario" Type="Int32" />
-          <Property Name="IdDocumento" Type="Int32" />
-          <Property Name="IdTipo" Type="Int32" />
-          <NavigationProperty Name="Documento" Relationship="Self.FK_Item_Documento" FromRole="Item" ToRole="Documento" />
+          <Property Name="IdTipoItem" Type="Int32" />
+          <Property Name="Placa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Informacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Documento" Relationship="Self.FK_Documento_Item" FromRole="Item" ToRole="Documento" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Item_Usuario" FromRole="Item" ToRole="Usuario" />
           <NavigationProperty Name="Registro" Relationship="Self.FK_Registro_Item" FromRole="Item" ToRole="Registro" />
         </EntityType>
@@ -156,18 +156,18 @@
           <Key>
             <PropertyRef Name="IdRegistro" />
           </Key>
-          <Property Name="Latitud" Type="Decimal" Precision="8" Scale="6" />
-          <Property Name="Longitud" Type="Decimal" Precision="8" Scale="6" />
-          <Property Name="TanqueConductor" Type="Decimal" Precision="5" Scale="2" />
-          <Property Name="TanquePasajero" Type="Decimal" Precision="5" Scale="2" />
-          <Property Name="BotonPanico" Type="Boolean" />
-          <Property Name="Kilometraje" Type="Int32" />
-          <Property Name="Velocidad" Type="Int32" />
-          <Property Name="Fecha" Type="DateTime" Precision="0" />
-          <Property Name="Hora" Type="Time" Precision="7" />
+          <Property Name="IdRegistro" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdUsuario" Type="Int32" />
           <Property Name="IdItem" Type="Int32" />
-          <Property Name="IdRegistro" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Latitud" Type="Decimal" Precision="8" Scale="6" />
+          <Property Name="Longitud" Type="Decimal" Precision="8" Scale="6" />
+          <Property Name="TanqueConductor" Type="Decimal" Precision="4" Scale="1" />
+          <Property Name="TanquePasajero" Type="Decimal" Precision="4" Scale="1" />
+          <Property Name="Kilometraje" Type="Int32" />
+          <Property Name="Velocidad" Type="Int32" />
+          <Property Name="BotonPanico" Type="Boolean" />
+          <Property Name="Fecha" Type="DateTime" Precision="0" />
+          <Property Name="Hora" Type="Time" Precision="7" />
           <NavigationProperty Name="Item" Relationship="Self.FK_Registro_Item" FromRole="Registro" ToRole="Item" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Registro_Usuario" FromRole="Registro" ToRole="Usuario" />
         </EntityType>
@@ -175,24 +175,24 @@
           <Key>
             <PropertyRef Name="IdUsuario" />
           </Key>
-          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Telefono" Type="Decimal" Precision="15" Scale="0" Nullable="false" />
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="Empresa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Item" Relationship="Self.FK_Item_Usuario" FromRole="Usuario" ToRole="Item" />
           <NavigationProperty Name="Registro" Relationship="Self.FK_Registro_Usuario" FromRole="Usuario" ToRole="Registro" />
         </EntityType>
-        <Association Name="FK_Item_Documento">
-          <End Role="Documento" Type="Self.Documento" Multiplicity="0..1" />
-          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+        <Association Name="FK_Documento_Item">
+          <End Role="Item" Type="Self.Item" Multiplicity="0..1" />
+          <End Role="Documento" Type="Self.Documento" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Documento">
-              <PropertyRef Name="IdDocumento" />
+            <Principal Role="Item">
+              <PropertyRef Name="IdItem" />
             </Principal>
-            <Dependent Role="Item">
-              <PropertyRef Name="IdDocumento" />
+            <Dependent Role="Documento">
+              <PropertyRef Name="IdItem" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -232,14 +232,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="MonitoreoDBEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="MonitoreoDbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Documento" EntityType="Self.Documento" />
           <EntitySet Name="Item" EntityType="Self.Item" />
           <EntitySet Name="Registro" EntityType="Self.Registro" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" />
-          <AssociationSet Name="FK_Item_Documento" Association="Self.FK_Item_Documento">
-            <End Role="Documento" EntitySet="Documento" />
+          <AssociationSet Name="FK_Documento_Item" Association="Self.FK_Documento_Item">
             <End Role="Item" EntitySet="Item" />
+            <End Role="Documento" EntitySet="Documento" />
           </AssociationSet>
           <AssociationSet Name="FK_Item_Usuario" Association="Self.FK_Item_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
@@ -259,11 +259,12 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="MonitoreoDBModelStoreContainer" CdmEntityContainer="MonitoreoDBEntities">
+        <EntityContainerMapping StorageEntityContainer="MonitoreoDbModelStoreContainer" CdmEntityContainer="MonitoreoDbEntities">
           <EntitySetMapping Name="Documento">
-            <EntityTypeMapping TypeName="MonitoreoDBModel.Documento">
+            <EntityTypeMapping TypeName="MonitoreoDbModel.Documento">
               <MappingFragment StoreEntitySet="Documento">
                 <ScalarProperty Name="IdDocumento" ColumnName="IdDocumento" />
+                <ScalarProperty Name="IdItem" ColumnName="IdItem" />
                 <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
                 <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
                 <ScalarProperty Name="IdTipoDocumento" ColumnName="IdTipoDocumento" />
@@ -271,37 +272,36 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Item">
-            <EntityTypeMapping TypeName="MonitoreoDBModel.Item">
+            <EntityTypeMapping TypeName="MonitoreoDbModel.Item">
               <MappingFragment StoreEntitySet="Item">
                 <ScalarProperty Name="IdItem" ColumnName="IdItem" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IdTipoItem" ColumnName="IdTipoItem" />
                 <ScalarProperty Name="Placa" ColumnName="Placa" />
                 <ScalarProperty Name="Informacion" ColumnName="Informacion" />
-                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
-                <ScalarProperty Name="IdDocumento" ColumnName="IdDocumento" />
-                <ScalarProperty Name="IdTipo" ColumnName="IdTipo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Registro">
-            <EntityTypeMapping TypeName="MonitoreoDBModel.Registro">
+            <EntityTypeMapping TypeName="MonitoreoDbModel.Registro">
               <MappingFragment StoreEntitySet="Registro">
+                <ScalarProperty Name="IdRegistro" ColumnName="IdRegistro" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IdItem" ColumnName="IdItem" />
                 <ScalarProperty Name="Latitud" ColumnName="Latitud" />
                 <ScalarProperty Name="Longitud" ColumnName="Longitud" />
                 <ScalarProperty Name="TanqueConductor" ColumnName="TanqueConductor" />
                 <ScalarProperty Name="TanquePasajero" ColumnName="TanquePasajero" />
-                <ScalarProperty Name="BotonPanico" ColumnName="BotonPanico" />
                 <ScalarProperty Name="Kilometraje" ColumnName="Kilometraje" />
                 <ScalarProperty Name="Velocidad" ColumnName="Velocidad" />
+                <ScalarProperty Name="BotonPanico" ColumnName="BotonPanico" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="Hora" ColumnName="Hora" />
-                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
-                <ScalarProperty Name="IdItem" ColumnName="IdItem" />
-                <ScalarProperty Name="IdRegistro" ColumnName="IdRegistro" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Usuario">
-            <EntityTypeMapping TypeName="MonitoreoDBModel.Usuario">
+            <EntityTypeMapping TypeName="MonitoreoDbModel.Usuario">
               <MappingFragment StoreEntitySet="Usuario">
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
@@ -329,7 +329,7 @@
         <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="true" />
-        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->
