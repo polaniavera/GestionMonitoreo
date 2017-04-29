@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.Text;
 
 #endregion
 
@@ -194,6 +195,15 @@ namespace DataModel.GenericRepository
             return DbSet.First<TEntity>(predicate);
         }
 
+        /// <summary>
+        /// Return TEntity from specific store procedure
+        /// </summary>
+        /// <param name="predicate">Criteria to match on</param>
+        /// <returns>A List matching last records from each item in usuario, to specific dashboard</returns>
+        public IEnumerable<TEntity> ExecWithStoreProcedure(string query, params object[] parameters)
+        {
+            return Context.Database.SqlQuery<TEntity>(query, parameters);
+        }
 
         #endregion
     }

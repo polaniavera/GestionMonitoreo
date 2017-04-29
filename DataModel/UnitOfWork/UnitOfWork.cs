@@ -100,6 +100,7 @@ namespace DataModel.UnitOfWork
         #endregion
 
         #region Public member methods...
+        
         /// <summary>
         /// Save method.
         /// </summary>

@@ -101,6 +101,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="getMaximaLectura" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idUsuario" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="MonitoreoDbModelStoreContainer">
           <EntitySet Name="Documento" EntityType="Self.Documento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Item" EntityType="Self.Item" Schema="dbo" store:Type="Tables" />
@@ -253,7 +256,24 @@
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Registro" EntitySet="Registro" />
           </AssociationSet>
+          <FunctionImport Name="getMaximaLectura" ReturnType="Collection(MonitoreoDbModel.getMaximaLectura_Result)">
+            <Parameter Name="idUsuario" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="getMaximaLectura_Result">
+          <Property Type="Int32" Name="IdRegistro" Nullable="false" />
+          <Property Type="Int32" Name="IdUsuario" Nullable="true" />
+          <Property Type="Int32" Name="IdItem" Nullable="true" />
+          <Property Type="Decimal" Name="Latitud" Nullable="true" Precision="8" Scale="6" />
+          <Property Type="Decimal" Name="Longitud" Nullable="true" Precision="8" Scale="6" />
+          <Property Type="Decimal" Name="TanqueConductor" Nullable="true" Precision="4" Scale="1" />
+          <Property Type="Decimal" Name="TanquePasajero" Nullable="true" Precision="4" Scale="1" />
+          <Property Type="Int32" Name="Kilometraje" Nullable="true" />
+          <Property Type="Int32" Name="Velocidad" Nullable="true" />
+          <Property Type="Boolean" Name="BotonPanico" Nullable="true" />
+          <Property Type="DateTime" Name="Fecha" Nullable="true" />
+          <Property Type="Time" Name="Hora" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -312,6 +332,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="getMaximaLectura" FunctionName="MonitoreoDbModel.Store.getMaximaLectura">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MonitoreoDbModel.getMaximaLectura_Result">
+                <ScalarProperty Name="IdRegistro" ColumnName="IdRegistro" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IdItem" ColumnName="IdItem" />
+                <ScalarProperty Name="Latitud" ColumnName="Latitud" />
+                <ScalarProperty Name="Longitud" ColumnName="Longitud" />
+                <ScalarProperty Name="TanqueConductor" ColumnName="TanqueConductor" />
+                <ScalarProperty Name="TanquePasajero" ColumnName="TanquePasajero" />
+                <ScalarProperty Name="Kilometraje" ColumnName="Kilometraje" />
+                <ScalarProperty Name="Velocidad" ColumnName="Velocidad" />
+                <ScalarProperty Name="BotonPanico" ColumnName="BotonPanico" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

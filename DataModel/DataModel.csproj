@@ -55,6 +55,9 @@
     </Compile>
     <Compile Include="GenericRepository\GenericRepository.cs" />
     <Compile Include="GenericRepository\RegistroCustomRepository.cs" />
+    <Compile Include="getMaximaLectura_Result.cs">
+      <DependentUpon>MonitoreoDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Item.cs">
       <DependentUpon>MonitoreoDataModel.tt</DependentUpon>
     </Compile>

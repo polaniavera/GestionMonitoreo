@@ -4,6 +4,8 @@ using DataModel;
 using DataModel.UnitOfWork;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Transactions;
@@ -16,13 +18,16 @@ namespace BusinessServices
     public class RegistroServices : IRegistroServices
     {
         private readonly UnitOfWork _unitOfWork;
+        internal MonitoreoDbEntities Context;
 
         /// <summary>
         /// Public constructor.
         /// </summary>
-        public RegistroServices(UnitOfWork unitOfWork)
+        public RegistroServices(UnitOfWork unitOfWork,
+            MonitoreoDbEntities context)
         {
             _unitOfWork = unitOfWork;
+            this.Context = context;
         }
 
         /// <summary>
@@ -78,7 +83,7 @@ namespace BusinessServices
                 var registro = new Registro
                 {
                     BotonPanico = registroEntity.BotonPanico,
-                    Fecha = registroEntity.Fecha,
+                    Fecha = DateTime.Parse(registroEntity.Fecha),
                     Hora = registroEntity.Hora,
                     IdItem = registroEntity.IdItem,
                     IdRegistro = registroEntity.IdRegistro,
@@ -116,7 +121,7 @@ namespace BusinessServices
                     if (registro != null)
                     {
                         registro.BotonPanico = registroEntity.BotonPanico;
-                        registro.Fecha = registroEntity.Fecha;
+                        registro.Fecha = DateTime.Parse(registroEntity.Fecha);
                         registro.Hora = registroEntity.Hora;
                         registro.IdItem = registroEntity.IdItem;
                         registro.IdRegistro = registroEntity.IdRegistro;
@@ -245,38 +250,44 @@ namespace BusinessServices
             return null;
         }
 
-
-
-        /// <summary>
-        /// Creates a registro
-        /// </summary>
-        /// <param name="registroEntity"></param>
-        /// <returns></returns>
-        public int CreateRegistroPrueba(Test testEntity)
+        public IEnumerable<RegistroEntity> GetDashboard(string idUsuario)
         {
-            using (var scope = new TransactionScope())
+            //var registros = _unitOfWork.RegistroRepository.GetMany(c => c.IdUsuario == Int32.Parse(idUsuario) && c.Fecha == Convert.ToDateTime(fecha)).ToList();
+
+            List<Registro> registros =
+                _unitOfWork.RegistroRepository.ExecWithStoreProcedure("getMaximaLectura @idUsuario",
+                new SqlParameter("idUsuario", SqlDbType.Int) { Value = idUsuario }).ToList();
+
+            if (registros.Any())
             {
-                var registro = new Registro
+                Mapper.Initialize(cfg =>
                 {
-                    BotonPanico = true,
-                    Fecha = DateTime.Now,
-                    Hora = DateTime.Now.TimeOfDay,
-                    IdItem = 2,
-                    IdUsuario = 1,
-                    Item = null,
-                    Kilometraje = testEntity.kilometraje,
-                    Latitud = Convert.ToDecimal("11.11", CultureInfo.InvariantCulture),
-                    Longitud = Convert.ToDecimal("99.99", CultureInfo.InvariantCulture),
-                    TanqueConductor = Convert.ToDecimal("20.2", CultureInfo.InvariantCulture),
-                    TanquePasajero = Convert.ToDecimal("11.1", CultureInfo.InvariantCulture),
-                    Usuario = null,
-                    Velocidad = 99
-                };
-                _unitOfWork.RegistroRepository.Insert(registro);
-                _unitOfWork.Save();
-                scope.Complete();
-                return registro.IdRegistro;
+                    cfg.CreateMap<Registro, RegistroEntity>();
+                });
+                var registrosModel = Mapper.Map<List<Registro>, List<RegistroEntity>>(registros);
+
+                return registrosModel;
             }
+            return null;
+        }
+
+        public IEnumerable<RegistroEntity> formatRegistros(IEnumerable<RegistroEntity> registros)
+        {
+            foreach (RegistroEntity registro in registros)
+            {
+                if(registro.Fecha!=null && registro.Fecha!=string.Empty)
+                    registro.Fecha = registro.Fecha.Substring(0, registro.Fecha.IndexOf(" "));
+            }
+
+            return registros;
+        }
+
+        public RegistroEntity formatRegistro(RegistroEntity registro)
+        {
+            if (registro.Fecha != null && registro.Fecha != string.Empty)
+                    registro.Fecha = registro.Fecha.Substring(0, registro.Fecha.IndexOf(" "));
+
+            return registro;
         }
 
     }

@@ -16,8 +16,8 @@ namespace BusinessEntities
         public Nullable<bool> BotonPanico { get; set; }
         public Nullable<int> Kilometraje { get; set; }
         public Nullable<int> Velocidad { get; set; }
-        public Nullable<System.DateTime> Fecha { get; set; }
-        public Nullable<System.TimeSpan> Hora { get; set; }
+        public string Fecha { get; set; }
+        public System.TimeSpan Hora { get; set; }
         public Nullable<int> IdUsuario { get; set; }
         public Nullable<int> IdItem { get; set; }
         public int IdRegistro { get; set; }

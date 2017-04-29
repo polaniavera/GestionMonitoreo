@@ -12,6 +12,9 @@ namespace DataModel
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Objects;
+    using System.Data.Objects.DataClasses;
+    using System.Linq;
     
     public partial class MonitoreoDbEntities : DbContext
     {
@@ -30,5 +33,14 @@ namespace DataModel
         public DbSet<Item> Item { get; set; }
         public DbSet<Registro> Registro { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
+    
+        public virtual ObjectResult<getMaximaLectura_Result> getMaximaLectura(Nullable<int> idUsuario)
+        {
+            var idUsuarioParameter = idUsuario.HasValue ?
+                new ObjectParameter("idUsuario", idUsuario) :
+                new ObjectParameter("idUsuario", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getMaximaLectura_Result>("getMaximaLectura", idUsuarioParameter);
+        }
     }
 }

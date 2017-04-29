@@ -33,6 +33,7 @@ namespace GestionMonitoreo.Controllers
             var registros = _registroServices.GetAllRegistros();
             if (registros != null)
             {
+                registros = _registroServices.formatRegistros(registros);
                 var registroEntities = registros as List<RegistroEntity> ?? registros.ToList();
                 if (registroEntities.Any())
                     return Request.CreateResponse(HttpStatusCode.OK, registroEntities);
@@ -45,7 +46,10 @@ namespace GestionMonitoreo.Controllers
         {
             var registro = _registroServices.GetRegistroById(id);
             if (registro != null)
+            {
+                registro = _registroServices.formatRegistro(registro);
                 return Request.CreateResponse(HttpStatusCode.OK, registro);
+            }
             return Request.CreateErrorResponse(HttpStatusCode.NotFound, "No registro found for this id");
         }
 
@@ -56,6 +60,7 @@ namespace GestionMonitoreo.Controllers
             var registros = _registroServices.GetByIdUsuario(idUsuario, fecha);
             if (registros != null)
             {
+                registros = _registroServices.formatRegistros(registros);
                 var registroEntities = registros as List<RegistroEntity> ?? registros.ToList();
                 if (registroEntities.Any())
                     return Request.CreateResponse(HttpStatusCode.OK, registroEntities);
@@ -70,6 +75,22 @@ namespace GestionMonitoreo.Controllers
             var registros = _registroServices.GetByIdItem(idUsuario, idItem, fecha);
             if (registros != null)
             {
+                registros = _registroServices.formatRegistros(registros);
+                var registroEntities = registros as List<RegistroEntity> ?? registros.ToList();
+                if (registroEntities.Any())
+                    return Request.CreateResponse(HttpStatusCode.OK, registroEntities);
+            }
+            return Request.CreateErrorResponse(HttpStatusCode.NotFound, "No registros found for this idUsuario, idItem and Date");
+        }
+
+        //GET api/registro/getDashboard/1
+        [Route("getDashboard/{idUsuario?}")]
+        public HttpResponseMessage GetDashboard(string idUsuario)
+        {
+            var registros = _registroServices.GetDashboard(idUsuario);
+            if (registros != null)
+            {
+                registros = _registroServices.formatRegistros(registros);
                 var registroEntities = registros as List<RegistroEntity> ?? registros.ToList();
                 if (registroEntities.Any())
                     return Request.CreateResponse(HttpStatusCode.OK, registroEntities);
@@ -87,23 +108,6 @@ namespace GestionMonitoreo.Controllers
             }
             return _registroServices.CreateRegistro(registroEntity);
         }
-
-
-        [Route("prueba")]
-        public int Prueba([FromBody] Test testEntity)
-        {
-            return _registroServices.CreateRegistroPrueba(testEntity);
-        }
-
-
-        // POST api/registro/create/...
-        //[Route("create/{latitud?}/{longitud?}/{tanqueConductor?}/{tanquePasajero?}/{botonPanico?}/{velocidad?}/{idUsuario?}/{idItem?}")]
-        //public int Post(string latitud, string longitud, string tanqueConductor,
-        //    string tanquePasajero, string botonPanico, string velocidad, string idUsuario, string idItem)
-        //{
-        //    return _registroServices.CreateRegistroUrl(latitud, longitud, tanqueConductor,
-        //        tanquePasajero, botonPanico, velocidad, idUsuario, idItem);
-        //}
 
         // PUT api/registro/5
         public bool Put(int id, [FromBody]RegistroEntity registroEntity)
