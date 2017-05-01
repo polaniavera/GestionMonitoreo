@@ -250,6 +250,32 @@ namespace BusinessServices
             return null;
         }
 
+        /// <summary>
+        /// Fetches all the registros by IdItem and date range.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<RegistroEntity> GetByIdItemRange(string idUsuario, string idItem, string fechaInicial, string fechaFinal)
+        {
+            int _idUsuario = Int32.Parse(idUsuario);
+            int _idItem = Int32.Parse(idItem);
+            DateTime _fechaInicial = Convert.ToDateTime(fechaInicial);
+            DateTime _fechaFinal = Convert.ToDateTime(fechaFinal);
+
+            var registros = _unitOfWork.RegistroRepository.GetMany(c => c.IdUsuario == _idUsuario && c.IdItem == _idItem && c.Fecha >= _fechaInicial && c.Fecha <= _fechaFinal).ToList();
+
+            if (registros.Any())
+            {
+                Mapper.Initialize(cfg =>
+                {
+                    cfg.CreateMap<Registro, RegistroEntity>();
+                });
+                var registrosModel = Mapper.Map<List<Registro>, List<RegistroEntity>>(registros);
+
+                return registrosModel;
+            }
+            return null;
+        }
+
         public IEnumerable<RegistroEntity> GetDashboard(string idUsuario)
         {
             //var registros = _unitOfWork.RegistroRepository.GetMany(c => c.IdUsuario == Int32.Parse(idUsuario) && c.Fecha == Convert.ToDateTime(fecha)).ToList();
@@ -257,6 +283,26 @@ namespace BusinessServices
             List<Registro> registros =
                 _unitOfWork.RegistroRepository.ExecWithStoreProcedure("getMaximaLectura @idUsuario",
                 new SqlParameter("idUsuario", SqlDbType.Int) { Value = idUsuario }).ToList();
+
+            if (registros.Any())
+            {
+                Mapper.Initialize(cfg =>
+                {
+                    cfg.CreateMap<Registro, RegistroEntity>();
+                });
+                var registrosModel = Mapper.Map<List<Registro>, List<RegistroEntity>>(registros);
+
+                return registrosModel;
+            }
+            return null;
+        }
+
+        public IEnumerable<RegistroEntity> GetDashboardByDate(string idUsuario, string fecha)
+        {
+            List<Registro> registros =
+                _unitOfWork.RegistroRepository.ExecWithStoreProcedure("getMaxLecturaByFecha @idUsuario, @fecha",
+                new SqlParameter("idUsuario", SqlDbType.Int) { Value = idUsuario },
+                new SqlParameter("fecha", SqlDbType.VarChar) { Value = fecha }).ToList();
 
             if (registros.Any())
             {

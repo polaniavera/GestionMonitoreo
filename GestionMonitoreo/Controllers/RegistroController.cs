@@ -83,11 +83,41 @@ namespace GestionMonitoreo.Controllers
             return Request.CreateErrorResponse(HttpStatusCode.NotFound, "No registros found for this idUsuario, idItem and Date");
         }
 
+        //GET api/registro/getByItemRange/1/2/2017-04-23/2017-04-28
+        [Route("getByItemRange/{idUsuario?}/{idItem?}/{fechaInicial?}/{fechaFinal?}")]
+        public HttpResponseMessage GetByIdItemRange(string idUsuario, string idItem, string fechaInicial, string fechaFinal)
+        {
+            var registros = _registroServices.GetByIdItemRange(idUsuario, idItem, fechaInicial, fechaFinal);
+            if (registros != null)
+            {
+                registros = _registroServices.formatRegistros(registros);
+                var registroEntities = registros as List<RegistroEntity> ?? registros.ToList();
+                if (registroEntities.Any())
+                    return Request.CreateResponse(HttpStatusCode.OK, registroEntities);
+            }
+            return Request.CreateErrorResponse(HttpStatusCode.NotFound, "No registros found for this idUsuario, idItem and Date");
+        }
+
         //GET api/registro/getDashboard/1
         [Route("getDashboard/{idUsuario?}")]
         public HttpResponseMessage GetDashboard(string idUsuario)
         {
             var registros = _registroServices.GetDashboard(idUsuario);
+            if (registros != null)
+            {
+                registros = _registroServices.formatRegistros(registros);
+                var registroEntities = registros as List<RegistroEntity> ?? registros.ToList();
+                if (registroEntities.Any())
+                    return Request.CreateResponse(HttpStatusCode.OK, registroEntities);
+            }
+            return Request.CreateErrorResponse(HttpStatusCode.NotFound, "No registros found for this idUsuario, idItem and Date");
+        }
+
+        //GET api/registro/getDashboardByDate/1/2017-04-22
+        [Route("getDashboardByDate/{idUsuario?}/{fecha?}")]
+        public HttpResponseMessage getDashboardByDate(string idUsuario, string fecha)
+        {
+            var registros = _registroServices.GetDashboardByDate(idUsuario, fecha);
             if (registros != null)
             {
                 registros = _registroServices.formatRegistros(registros);

@@ -16,7 +16,9 @@ namespace BusinessServices
         bool DeleteRegistro(int registroId);
         IEnumerable<RegistroEntity> GetByIdUsuario(string idUsuario, string fecha);
         IEnumerable<RegistroEntity> GetByIdItem(string idUsuario, string idItem, string fecha);
+        IEnumerable<RegistroEntity> GetByIdItemRange(string idUsuario, string idItem, string fechaInicial, string fechaFinal);
         IEnumerable<RegistroEntity> GetDashboard(string idUsuario);
+        IEnumerable<RegistroEntity> GetDashboardByDate(string idUsuario, string fecha);
         IEnumerable<RegistroEntity> formatRegistros(IEnumerable<RegistroEntity> registros);
         RegistroEntity formatRegistro(RegistroEntity registro);
         int CreateRegistroUrl(string latitud, string longitud, string tanqueConductor,
