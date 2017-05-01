@@ -373,8 +373,8 @@ namespace BusinessServices
 
             if (registro.Fecha != null && registro.Fecha != string.Empty)
             {
-                fechaStr = registro.Fecha.Substring(0, registro.Fecha.IndexOf("T"));
-                fechaStr = fechaStr + " " + registro.Hora;
+                //fechaStr = registro.Fecha.Substring(0, registro.Fecha.IndexOf("T"));
+                fechaStr = registro.Fecha + " " + registro.Hora;
                 fechaDt = DateTime.Parse(fechaStr);
                 fechaDt = fechaDt.AddHours(-5);
                 registro.Fecha = fechaDt.Date.ToString();
