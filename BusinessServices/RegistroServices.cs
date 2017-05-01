@@ -78,6 +78,8 @@ namespace BusinessServices
         /// <returns></returns>
         public int CreateRegistro(BusinessEntities.RegistroEntity registroEntity)
         {
+            registroEntity = formatTimeCreate(registroEntity);
+
             using (var scope = new TransactionScope())
             {
                 var registro = new Registro
@@ -276,9 +278,16 @@ namespace BusinessServices
             return null;
         }
 
+        /// <summary>
+        /// Obtiene el ultimo registro de cada item de un usuario, vista dashboard ingreso
+        /// </summary>
+        /// <param name="idUsuario"></param>
+        /// <returns>IEnumerable<RegistroEntity></returns>
         public IEnumerable<RegistroEntity> GetDashboard(string idUsuario)
         {
-            //var registros = _unitOfWork.RegistroRepository.GetMany(c => c.IdUsuario == Int32.Parse(idUsuario) && c.Fecha == Convert.ToDateTime(fecha)).ToList();
+            //var registros = _unitOfWork.RegistroRepository.GetMany(c => c.IdUsuario == Int32.Parse(idUsuario) && c.Fecha == Convert.ToDateTime(c.Fecha)).ToList();
+           
+            //var soport = (from reg in Context.Registro where reg.IdUsuario == Int32.Parse(idUsuario) || idUsuario == null select reg.Fecha).Single();
 
             List<Registro> registros =
                 _unitOfWork.RegistroRepository.ExecWithStoreProcedure("getMaximaLectura @idUsuario",
@@ -297,6 +306,12 @@ namespace BusinessServices
             return null;
         }
 
+        /// <summary>
+        /// Obtiene el registro de cada item de un usuario filtrado por fecha, vista dashboard principal con filtro fecha
+        /// </summary>
+        /// <param name="idUsuario">string</param>
+        /// <param name="fecha">string</param>
+        /// <returns>IEnumerable<RegistroEntity></returns>
         public IEnumerable<RegistroEntity> GetDashboardByDate(string idUsuario, string fecha)
         {
             List<Registro> registros =
@@ -317,6 +332,11 @@ namespace BusinessServices
             return null;
         }
 
+        /// <summary>
+        /// Formatea el campo Registro.Fecha para eliminar hora por defecto del DateTime
+        /// </summary>
+        /// <param name="registros">IEnumerable<RegistroEntity></param>
+        /// <returns>IEnumerable<RegistroEntity></returns>
         public IEnumerable<RegistroEntity> formatRegistros(IEnumerable<RegistroEntity> registros)
         {
             foreach (RegistroEntity registro in registros)
@@ -328,10 +348,39 @@ namespace BusinessServices
             return registros;
         }
 
+        /// <summary>
+        /// Formatea el campo Registro.Fecha para eliminar hora por defecto del DateTime
+        /// </summary>
+        /// <param name="registro">RegistroEntity</param>
+        /// <returns>RegistroEntity</returns>
         public RegistroEntity formatRegistro(RegistroEntity registro)
         {
             if (registro.Fecha != null && registro.Fecha != string.Empty)
-                    registro.Fecha = registro.Fecha.Substring(0, registro.Fecha.IndexOf(" "));
+                registro.Fecha = registro.Fecha.Substring(0, registro.Fecha.IndexOf(" "));
+
+            return registro;
+        }
+
+        /// <summary>
+        /// Formatea el campo Registro.Fecha para cambiar hora GMT00 GMT-5 del DateTime
+        /// </summary>
+        /// <param name="registro">RegistroEntity</param>
+        /// <returns>RegistroEntity</returns>
+        public RegistroEntity formatTimeCreate(RegistroEntity registro)
+        {
+            string fechaStr = string.Empty;
+            DateTime fechaDt;
+
+            if (registro.Fecha != null && registro.Fecha != string.Empty)
+            {
+                fechaStr = registro.Fecha.Substring(0, registro.Fecha.IndexOf("T"));
+                fechaStr = fechaStr + " " + registro.Hora;
+                fechaDt = DateTime.Parse(fechaStr);
+                fechaDt = fechaDt.AddHours(-5);
+                registro.Fecha = fechaDt.Date.ToString();
+                registro.Hora = fechaDt.TimeOfDay;
+                registro.Fecha = registro.Fecha.Substring(0, registro.Fecha.IndexOf(" "));
+            }
 
             return registro;
         }

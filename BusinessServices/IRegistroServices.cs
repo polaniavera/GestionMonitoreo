@@ -21,6 +21,7 @@ namespace BusinessServices
         IEnumerable<RegistroEntity> GetDashboardByDate(string idUsuario, string fecha);
         IEnumerable<RegistroEntity> formatRegistros(IEnumerable<RegistroEntity> registros);
         RegistroEntity formatRegistro(RegistroEntity registro);
+        RegistroEntity formatTimeCreate(RegistroEntity registro);
         int CreateRegistroUrl(string latitud, string longitud, string tanqueConductor,
             string tanquePasajero, string botonPanico, string velocidad, string idUsuario, string idItem);
     }

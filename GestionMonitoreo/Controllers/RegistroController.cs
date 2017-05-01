@@ -132,11 +132,11 @@ namespace GestionMonitoreo.Controllers
         [Route("create")]
         public int Post([FromBody] RegistroEntity registroEntity)
         {
-            if(registroEntity==null)
+            if(registroEntity!=null)
             {
-                return 0;
+                return _registroServices.CreateRegistro(registroEntity);
             }
-            return _registroServices.CreateRegistro(registroEntity);
+            return 0;
         }
 
         // PUT api/registro/5
