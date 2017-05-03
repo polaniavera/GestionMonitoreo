@@ -14,15 +14,21 @@ namespace GestionMonitoreo.Controllers
     {
 
         private readonly IRegistroServices _registroServices;
+        private readonly IItemServices _itemServices;
+        private readonly IUsuarioServices _usuarioServices;
 
         #region Public Constructor
 
         /// <summary>
         /// Public constructor to initialize registro service instance
         /// </summary>
-        public RegistroController(IRegistroServices registroServices)
+        public RegistroController(IRegistroServices registroServices,
+            IItemServices itemServices,
+            IUsuarioServices usuarioServices)
         {
             _registroServices = registroServices;
+            _itemServices = itemServices;
+            _usuarioServices = usuarioServices;
         }
 
         #endregion
@@ -103,12 +109,18 @@ namespace GestionMonitoreo.Controllers
         public HttpResponseMessage GetDashboard(string idUsuario)
         {
             var registros = _registroServices.GetDashboard(idUsuario);
-            if (registros != null)
+            var items = _itemServices.GetItemByUser(idUsuario);
+            var usuario = _usuarioServices.GetUserById(idUsuario);
+
+            if (registros != null && items != null && usuario != null)
             {
                 registros = _registroServices.formatRegistros(registros);
                 var registroEntities = registros as List<RegistroEntity> ?? registros.ToList();
-                if (registroEntities.Any())
-                    return Request.CreateResponse(HttpStatusCode.OK, registroEntities);
+                var itemsEntities = items as List<ItemEntity> ?? items.ToList();
+
+                object[] jsonArray = { usuario, itemsEntities, registroEntities };
+
+                return Request.CreateResponse(HttpStatusCode.OK, jsonArray);
             }
             return Request.CreateErrorResponse(HttpStatusCode.NotFound, "No registros found for this idUsuario, idItem and Date");
         }

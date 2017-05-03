@@ -1,4 +1,5 @@
 ﻿using DataModel;
+using System;
 using System.Collections.Generic;
 
 namespace BusinessEntities
@@ -14,7 +15,7 @@ namespace BusinessEntities
         public int IdUsuario { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
-        public decimal Telefono { get; set; }
+        public Nullable<decimal> Telefono { get; set; }
         public string Empresa { get; set; }
         public string Correo { get; set; }
 

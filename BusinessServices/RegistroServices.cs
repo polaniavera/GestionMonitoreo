@@ -285,10 +285,6 @@ namespace BusinessServices
         /// <returns>IEnumerable<RegistroEntity></returns>
         public IEnumerable<RegistroEntity> GetDashboard(string idUsuario)
         {
-            //var registros = _unitOfWork.RegistroRepository.GetMany(c => c.IdUsuario == Int32.Parse(idUsuario) && c.Fecha == Convert.ToDateTime(c.Fecha)).ToList();
-           
-            //var soport = (from reg in Context.Registro where reg.IdUsuario == Int32.Parse(idUsuario) || idUsuario == null select reg.Fecha).Single();
-
             List<Registro> registros =
                 _unitOfWork.RegistroRepository.ExecWithStoreProcedure("getMaximaLectura @idUsuario",
                 new SqlParameter("idUsuario", SqlDbType.Int) { Value = idUsuario }).ToList();

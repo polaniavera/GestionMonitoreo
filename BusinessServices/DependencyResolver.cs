@@ -11,7 +11,8 @@ namespace BusinessServices
         public void SetUp(IRegisterComponent registerComponent)
         {
             registerComponent.RegisterType<IRegistroServices, RegistroServices>();
-
+            registerComponent.RegisterType<IItemServices, ItemServices>();
+            registerComponent.RegisterType<IUsuarioServices, UsuarioServices>();
         }
     }
 }
