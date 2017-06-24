@@ -21,7 +21,7 @@ namespace DataModel
         public MonitoreoDbEntities()
             : base("name=MonitoreoDbEntities")
         {
-            this.Configuration.LazyLoadingEnabled = false;
+            base.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

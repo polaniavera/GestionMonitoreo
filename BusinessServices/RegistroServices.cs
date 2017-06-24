@@ -23,11 +23,10 @@ namespace BusinessServices
         /// <summary>
         /// Public constructor.
         /// </summary>
-        public RegistroServices(UnitOfWork unitOfWork,
-            MonitoreoDbEntities context)
+        public RegistroServices()
         {
-            _unitOfWork = unitOfWork;
-            this.Context = context;
+            _unitOfWork = new UnitOfWork();
+            this.Context = new MonitoreoDbEntities();
         }
 
         /// <summary>
@@ -380,6 +379,36 @@ namespace BusinessServices
             }
 
             return registro;
+        }
+
+
+
+
+        /// <summary>
+        /// Creates a registro
+        /// </summary>
+        /// <param name="registroEntity"></param>
+        /// <returns></returns>
+        public RegistroEntity NotFound()
+        {
+            var registro = new RegistroEntity
+            {
+                Fecha = DateTime.Now.ToString(),
+                Hora = DateTime.Now.TimeOfDay,
+                IdItem = null,
+                //IdRegistro = null,
+                IdUsuario = null,
+                Item = null,
+                Kilometraje = null,
+                Latitud = 4.7m,
+                Longitud = -74.7m,
+                TanqueConductor = null,
+                TanquePasajero = null,
+                Usuario = null,
+                Velocidad = null
+            };
+            return registro;
+            
         }
 
     }

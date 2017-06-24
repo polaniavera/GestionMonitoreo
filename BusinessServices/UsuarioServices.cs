@@ -18,11 +18,10 @@ namespace BusinessServices
         /// <summary>
         /// Public constructor.
         /// </summary>
-        public UsuarioServices(UnitOfWork unitOfWork,
-            MonitoreoDbEntities context)
+        public UsuarioServices()
         {
-            _unitOfWork = unitOfWork;
-            this.Context = context;
+            _unitOfWork = new UnitOfWork();
+            this.Context = new MonitoreoDbEntities();
         }
 
         /// <summary>

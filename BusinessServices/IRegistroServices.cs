@@ -24,5 +24,7 @@ namespace BusinessServices
         RegistroEntity formatTimeCreate(RegistroEntity registro);
         int CreateRegistroUrl(string latitud, string longitud, string tanqueConductor,
             string tanquePasajero, string botonPanico, string velocidad, string idUsuario, string idItem);
+
+        RegistroEntity NotFound();
     }
 }

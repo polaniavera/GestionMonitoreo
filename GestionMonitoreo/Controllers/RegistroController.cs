@@ -13,22 +13,20 @@ namespace GestionMonitoreo.Controllers
     public class RegistroController : ApiController
     {
 
-        private readonly IRegistroServices _registroServices;
-        private readonly IItemServices _itemServices;
-        private readonly IUsuarioServices _usuarioServices;
+        private readonly RegistroServices _registroServices;
+        private readonly ItemServices _itemServices;
+        private readonly UsuarioServices _usuarioServices;
 
         #region Public Constructor
 
         /// <summary>
         /// Public constructor to initialize registro service instance
         /// </summary>
-        public RegistroController(IRegistroServices registroServices,
-            IItemServices itemServices,
-            IUsuarioServices usuarioServices)
+        public RegistroController()
         {
-            _registroServices = registroServices;
-            _itemServices = itemServices;
-            _usuarioServices = usuarioServices;
+            _registroServices = new RegistroServices();
+            _itemServices = new ItemServices();
+            _usuarioServices = new UsuarioServices();
         }
 
         #endregion
@@ -48,6 +46,7 @@ namespace GestionMonitoreo.Controllers
         }
 
         // GET api/registro/5
+        [Authorize]
         public HttpResponseMessage Get(int id)
         {
             var registro = _registroServices.GetRegistroById(id);
@@ -86,7 +85,9 @@ namespace GestionMonitoreo.Controllers
                 if (registroEntities.Any())
                     return Request.CreateResponse(HttpStatusCode.OK, registroEntities);
             }
-            return Request.CreateErrorResponse(HttpStatusCode.NotFound, "No registros found for this idUsuario, idItem and Date");
+            var registrosDefault = _registroServices.NotFound();
+            return Request.CreateResponse(HttpStatusCode.OK, registrosDefault);
+                        
         }
 
         //GET api/registro/getByItemRange/1/2/2017-04-23/2017-04-28

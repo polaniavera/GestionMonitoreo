@@ -26,6 +26,10 @@ namespace DataModel
         public Nullable<decimal> Telefono { get; set; }
         public string Empresa { get; set; }
         public string Correo { get; set; }
+        public string Password { get; set; }
+        public Nullable<bool> IsActive { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public string Username { get; set; }
     
         public virtual ICollection<Item> Item { get; set; }
         public virtual ICollection<Registro> Registro { get; set; }
