@@ -85,9 +85,9 @@ namespace GestionMonitoreo.Controllers
                 if (registroEntities.Any())
                     return Request.CreateResponse(HttpStatusCode.OK, registroEntities);
             }
-            var registrosDefault = _registroServices.NotFound();
-            return Request.CreateResponse(HttpStatusCode.OK, registrosDefault);
-                        
+            return null;
+            //var registrosDefault = _registroServices.NotFound();
+            //return Request.CreateResponse(HttpStatusCode.OK, registrosDefault);                        
         }
 
         //GET api/registro/getByItemRange/1/2/2017-04-23/2017-04-28

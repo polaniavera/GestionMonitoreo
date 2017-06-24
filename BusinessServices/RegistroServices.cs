@@ -381,35 +381,33 @@ namespace BusinessServices
             return registro;
         }
 
-
-
-
         /// <summary>
-        /// Creates a registro
+        /// Creates a dummy registro
         /// </summary>
         /// <param name="registroEntity"></param>
         /// <returns></returns>
-        public RegistroEntity NotFound()
+        public IEnumerable<RegistroEntity> NotFound()
         {
-            var registro = new RegistroEntity
+            RegistroEntity registro = new RegistroEntity
             {
                 Fecha = DateTime.Now.ToString(),
                 Hora = DateTime.Now.TimeOfDay,
-                IdItem = null,
+                IdItem = 0,
                 //IdRegistro = null,
-                IdUsuario = null,
-                Item = null,
-                Kilometraje = null,
+                IdUsuario = 0,
+                Kilometraje = 0,
                 Latitud = 4.7m,
                 Longitud = -74.7m,
-                TanqueConductor = null,
-                TanquePasajero = null,
+                TanqueConductor = 0,
+                TanquePasajero = 0,
+                Velocidad = 0,
                 Usuario = null,
-                Velocidad = null
+                Item = null
             };
-            return registro;
+            List<RegistroEntity> registroList = new List<RegistroEntity>();
+            registroList.Add(registro);
+            return registroList;
             
         }
-
     }
 }

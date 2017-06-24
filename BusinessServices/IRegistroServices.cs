@@ -25,6 +25,6 @@ namespace BusinessServices
         int CreateRegistroUrl(string latitud, string longitud, string tanqueConductor,
             string tanquePasajero, string botonPanico, string velocidad, string idUsuario, string idItem);
 
-        RegistroEntity NotFound();
+        IEnumerable<RegistroEntity> NotFound();
     }
 }
