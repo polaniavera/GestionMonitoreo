@@ -46,6 +46,7 @@
     <Compile Include="RegistroEntity.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="UsuarioEntity.cs" />
+    <Compile Include="VehiculosEntity.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataModel\DataModel.csproj">

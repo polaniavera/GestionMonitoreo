@@ -109,17 +109,19 @@ namespace GestionMonitoreo.Controllers
         [Route("getDashboard/{idUsuario?}")]
         public HttpResponseMessage GetDashboard(string idUsuario)
         {
-            var registros = _registroServices.GetDashboard(idUsuario);
-            var items = _itemServices.GetItemByUser(idUsuario);
             var usuario = _usuarioServices.GetUserById(idUsuario);
+            var items = _itemServices.GetItemByUser(idUsuario);
+            var registros = _registroServices.GetDashboard(idUsuario);
 
             if (registros != null && items != null && usuario != null)
             {
                 registros = _registroServices.formatRegistros(registros);
-                var registroEntities = registros as List<RegistroEntity> ?? registros.ToList();
-                var itemsEntities = items as List<ItemEntity> ?? items.ToList();
 
-                object[] jsonArray = { usuario, itemsEntities, registroEntities };
+                var vehiculos = _itemServices.SetVehiculos(items, registros);
+
+                var vehiculoEntities = vehiculos as List<VehiculosEntity> ?? vehiculos.ToList();
+
+                object[] jsonArray = { usuario, vehiculoEntities };
 
                 return Request.CreateResponse(HttpStatusCode.OK, jsonArray);
             }

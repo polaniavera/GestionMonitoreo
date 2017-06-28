@@ -10,5 +10,6 @@ namespace BusinessServices
     public interface IItemServices
     {
         IEnumerable<ItemEntity> GetItemByUser(string userId);
+        IEnumerable<VehiculosEntity> SetVehiculos(IEnumerable<ItemEntity> items, IEnumerable<RegistroEntity>  registros);
     }
 }
