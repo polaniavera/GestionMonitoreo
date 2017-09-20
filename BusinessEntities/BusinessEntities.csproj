@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DocumentoEntity.cs" />
+    <Compile Include="IotTemperaturaEntity.cs" />
     <Compile Include="ItemEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegistroEntity.cs" />

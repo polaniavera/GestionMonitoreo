@@ -58,6 +58,9 @@
     <Compile Include="getMaximaLectura_Result.cs">
       <DependentUpon>MonitoreoDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="IotTemperatura.cs">
+      <DependentUpon>MonitoreoDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Item.cs">
       <DependentUpon>MonitoreoDataModel.tt</DependentUpon>
     </Compile>

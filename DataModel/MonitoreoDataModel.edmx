@@ -15,6 +15,16 @@
           <Property Name="FechaFin" Type="date" />
           <Property Name="IdTipoDocumento" Type="int" />
         </EntityType>
+        <EntityType Name="IotTemperatura">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdIot" Type="int" />
+          <Property Name="Temperatura" Type="int" />
+          <Property Name="Fecha" Type="date" />
+          <Property Name="Hora" Type="time" Precision="7" />
+        </EntityType>
         <EntityType Name="Item">
           <Key>
             <PropertyRef Name="IdItem" />
@@ -110,6 +120,7 @@
         </Function>
         <EntityContainer Name="MonitoreoDbModelStoreContainer">
           <EntitySet Name="Documento" EntityType="Self.Documento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IotTemperatura" EntityType="Self.IotTemperatura" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Item" EntityType="Self.Item" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Registro" EntityType="Self.Registro" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
@@ -266,6 +277,7 @@
           <FunctionImport Name="getMaximaLectura" ReturnType="Collection(MonitoreoDbModel.getMaximaLectura_Result)">
           <Parameter Name="idUsuario" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="IotTemperatura" EntityType="MonitoreoDbModel.IotTemperatura" />
         </EntityContainer>
         <ComplexType Name="getMaximaLectura_Result">
           <Property Type="Int32" Name="IdRegistro" Nullable="false" />
@@ -281,6 +293,16 @@
           <Property Type="DateTime" Name="Fecha" Nullable="true" />
           <Property Type="Time" Name="Hora" Nullable="true" />
         </ComplexType>
+        <EntityType Name="IotTemperatura">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdIot" Type="Int32" />
+          <Property Name="Temperatura" Type="Int32" />
+          <Property Name="Fecha" Type="DateTime" Precision="0" />
+          <Property Name="Hora" Type="Time" Precision="7" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -361,6 +383,17 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="IotTemperatura">
+            <EntityTypeMapping TypeName="MonitoreoDbModel.IotTemperatura">
+              <MappingFragment StoreEntitySet="IotTemperatura">
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Temperatura" ColumnName="Temperatura" />
+                <ScalarProperty Name="IdIot" ColumnName="IdIot" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

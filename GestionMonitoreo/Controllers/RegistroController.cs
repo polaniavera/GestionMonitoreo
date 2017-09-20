@@ -12,7 +12,6 @@ namespace GestionMonitoreo.Controllers
     [RoutePrefix("api/registro")]
     public class RegistroController : ApiController
     {
-
         private readonly RegistroServices _registroServices;
         private readonly ItemServices _itemServices;
         private readonly UsuarioServices _usuarioServices;

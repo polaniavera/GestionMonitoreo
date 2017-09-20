@@ -33,6 +33,7 @@ namespace DataModel
         public DbSet<Item> Item { get; set; }
         public DbSet<Registro> Registro { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<IotTemperatura> IotTemperatura { get; set; }
     
         public virtual ObjectResult<getMaximaLectura_Result> getMaximaLectura(Nullable<int> idUsuario)
         {

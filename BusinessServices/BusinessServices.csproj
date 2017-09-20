@@ -52,7 +52,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DependencyResolver.cs" />
+    <Compile Include="IIotServices.cs" />
     <Compile Include="IItemServices.cs" />
+    <Compile Include="IotServices.cs" />
     <Compile Include="IRegistroServices.cs" />
     <Compile Include="ItemServices.cs" />
     <Compile Include="IUsuarioServices.cs" />

@@ -22,6 +22,7 @@ namespace DataModel.UnitOfWork
         private GenericRepository<Usuario> _usuarioRepository;
         private GenericRepository<Item> _itemRepository;
         private GenericRepository<Documento> _documentoRepository;
+        private GenericRepository<IotTemperatura> _iotTemperaturaRepository;
         private RegistroCustomRepository _registroCustomRepository; 
         #endregion
 
@@ -81,6 +82,19 @@ namespace DataModel.UnitOfWork
                 if (this._documentoRepository == null)
                     this._documentoRepository = new GenericRepository<Documento>(_context);
                 return _documentoRepository;
+            }
+        }
+
+        /// <summary>
+        /// Get/Set Property for IotTemperatura repository.
+        /// </summary>
+        public GenericRepository<IotTemperatura> IotTemperaturaRepository
+        {
+            get
+            {
+                if (this._iotTemperaturaRepository == null)
+                    this._iotTemperaturaRepository = new GenericRepository<IotTemperatura>(_context);
+                return _iotTemperaturaRepository;
             }
         }
 
