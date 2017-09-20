@@ -73,7 +73,7 @@ namespace GestionMonitoreo.Controllers
         //***************************************************************************************************
 
         // POST api/registro/iot
-        [Route("iot/{data?}")]
+        [Route("create/{data?}")]
         public int PostIot(string data)
         {
             if (data != null || data.Equals(string.Empty))
