@@ -15,6 +15,7 @@ namespace GestionMonitoreo.Controllers
         private readonly RegistroServices _registroServices;
         private readonly ItemServices _itemServices;
         private readonly UsuarioServices _usuarioServices;
+        private readonly EstacionesServices _estacionesServices;
 
         #region Public Constructor
 
@@ -26,6 +27,7 @@ namespace GestionMonitoreo.Controllers
             _registroServices = new RegistroServices();
             _itemServices = new ItemServices();
             _usuarioServices = new UsuarioServices();
+            _estacionesServices = new EstacionesServices();
         }
 
         #endregion
@@ -170,6 +172,20 @@ namespace GestionMonitoreo.Controllers
             if (id > 0)
                 return _registroServices.DeleteRegistro(id);
             return false;
+        }
+
+        // GET api/marcas
+        [Route("estaciones")]
+        public HttpResponseMessage GetEstaciones()
+        {
+            var estaciones = _estacionesServices.GetAllEstaciones();
+            if (estaciones != null)
+            {
+                var estacionesEntities = estaciones as List<EstacionesEntity> ?? estaciones.ToList();
+                if (estacionesEntities.Any())
+                    return Request.CreateResponse(HttpStatusCode.OK, estacionesEntities);
+            }
+            return Request.CreateErrorResponse(HttpStatusCode.NotFound, "estaciones not found");
         }
     }
 }

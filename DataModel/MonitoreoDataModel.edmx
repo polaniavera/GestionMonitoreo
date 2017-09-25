@@ -15,6 +15,18 @@
           <Property Name="FechaFin" Type="date" />
           <Property Name="IdTipoDocumento" Type="int" />
         </EntityType>
+        <EntityType Name="Estaciones">
+          <Key>
+            <PropertyRef Name="IdEstacion" />
+          </Key>
+          <Property Name="IdEstacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Campo" Type="varchar" MaxLength="50" />
+          <Property Name="Operadora" Type="varchar" MaxLength="50" />
+          <Property Name="Latitud" Type="decimal" Precision="8" Scale="6" />
+          <Property Name="Longitud" Type="decimal" Precision="8" Scale="6" />
+          <Property Name="Departamento" Type="varchar" MaxLength="50" />
+          <Property Name="Municipio" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="IotTemperatura">
           <Key>
             <PropertyRef Name="Id" />
@@ -120,6 +132,7 @@
         </Function>
         <EntityContainer Name="MonitoreoDbModelStoreContainer">
           <EntitySet Name="Documento" EntityType="Self.Documento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Estaciones" EntityType="Self.Estaciones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IotTemperatura" EntityType="Self.IotTemperatura" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Item" EntityType="Self.Item" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Registro" EntityType="Self.Registro" Schema="dbo" store:Type="Tables" />
@@ -278,6 +291,7 @@
           <Parameter Name="idUsuario" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="IotTemperatura" EntityType="MonitoreoDbModel.IotTemperatura" />
+          <EntitySet Name="Estaciones" EntityType="MonitoreoDbModel.Estaciones" />
         </EntityContainer>
         <ComplexType Name="getMaximaLectura_Result">
           <Property Type="Int32" Name="IdRegistro" Nullable="false" />
@@ -302,6 +316,18 @@
           <Property Name="Temperatura" Type="Int32" />
           <Property Name="Fecha" Type="DateTime" Precision="0" />
           <Property Name="Hora" Type="Time" Precision="7" />
+        </EntityType>
+        <EntityType Name="Estaciones">
+          <Key>
+            <PropertyRef Name="IdEstacion" />
+          </Key>
+          <Property Name="IdEstacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Campo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Operadora" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Latitud" Type="Decimal" Precision="8" Scale="6" />
+          <Property Name="Longitud" Type="Decimal" Precision="8" Scale="6" />
+          <Property Name="Departamento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Municipio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -391,6 +417,19 @@
                 <ScalarProperty Name="Temperatura" ColumnName="Temperatura" />
                 <ScalarProperty Name="IdIot" ColumnName="IdIot" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Estaciones">
+            <EntityTypeMapping TypeName="MonitoreoDbModel.Estaciones">
+              <MappingFragment StoreEntitySet="Estaciones">
+                <ScalarProperty Name="Municipio" ColumnName="Municipio" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="Longitud" ColumnName="Longitud" />
+                <ScalarProperty Name="Latitud" ColumnName="Latitud" />
+                <ScalarProperty Name="Operadora" ColumnName="Operadora" />
+                <ScalarProperty Name="Campo" ColumnName="Campo" />
+                <ScalarProperty Name="IdEstacion" ColumnName="IdEstacion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

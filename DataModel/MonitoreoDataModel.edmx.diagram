@@ -14,6 +14,7 @@
         <AssociationConnector Association="MonitoreoDbModel.FK_Registro_Item" ManuallyRouted="false" />
         <AssociationConnector Association="MonitoreoDbModel.FK_Registro_Usuario" ManuallyRouted="false" />
         <EntityTypeShape EntityType="MonitoreoDbModel.IotTemperatura" Width="1.5" PointX="3.375" PointY="6.75" />
+        <EntityTypeShape EntityType="MonitoreoDbModel.Estaciones" Width="1.5" PointX="5.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
