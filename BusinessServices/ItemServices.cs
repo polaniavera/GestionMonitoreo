@@ -58,7 +58,7 @@ namespace BusinessServices
             List<ItemEntity> itemsList = items.ToList();
             List<RegistroEntity> registrosList = registros.ToList();
 
-            for (int i = 0; i< itemsList.Count; i++)
+            for (int i = 0; i< registrosList.Count; i++)
             {
                 VehiculosEntity vehiculo = new VehiculosEntity
                 {
