@@ -266,7 +266,7 @@ namespace BusinessServices
 
             foreach (Registro registro in registros)
             {
-                registro.Fecha.Value.Add(registro.Hora.Value);
+                registro.Fecha = registro.Fecha.Value.AddHours(registro.Hora.Value.Hours).AddMinutes(registro.Hora.Value.Minutes).AddSeconds(registro.Hora.Value.Seconds);
             }
 
             registros.OrderBy(x => x.Fecha);
