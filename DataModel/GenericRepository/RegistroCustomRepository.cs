@@ -54,6 +54,7 @@ namespace DataModel.GenericRepository
             DateTime _fecha = Convert.ToDateTime(fecha);
 
             var registroByItem = Context.Registro.Where(c => c.IdUsuario == _idUsuario && c.IdItem == _idItem && c.Fecha == _fecha).ToList();
+            registroByItem = registroByItem.OrderBy(x => x.Hora).ToList();
             return registroByItem;
         }
 
