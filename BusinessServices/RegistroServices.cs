@@ -269,7 +269,7 @@ namespace BusinessServices
                 registro.Fecha = registro.Fecha.Value.AddHours(registro.Hora.Value.Hours).AddMinutes(registro.Hora.Value.Minutes).AddSeconds(registro.Hora.Value.Seconds);
             }
 
-            registros.OrderBy(x => x.Fecha);
+            registros = registros.OrderBy(x => x.Fecha).ToList();
 
             if (registros.Any())
             {

@@ -39,7 +39,7 @@ namespace DataModel.GenericRepository
             DateTime _fecha = Convert.ToDateTime(fecha);
 
             var registroByUser = Context.Registro.Where(c => c.IdUsuario == _idUsuario && c.Fecha == _fecha).ToList();
-            registroByUser.OrderBy(x => x.Hora).ToList();
+            registroByUser = registroByUser.OrderBy(x => x.Hora).ToList();
             return registroByUser;
         }
 
@@ -55,7 +55,7 @@ namespace DataModel.GenericRepository
             DateTime _fecha = Convert.ToDateTime(fecha);
 
             var registroByItem = Context.Registro.Where(c => c.IdUsuario == _idUsuario && c.IdItem == _idItem && c.Fecha == _fecha).ToList();
-            registroByItem.OrderBy(x => x.Hora).ToList();
+            registroByItem = registroByItem.OrderBy(x => x.Hora).ToList();
             return registroByItem;
         }
 
