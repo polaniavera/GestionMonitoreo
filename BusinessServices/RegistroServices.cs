@@ -263,6 +263,7 @@ namespace BusinessServices
             DateTime _fechaFinal = Convert.ToDateTime(fechaFinal);
 
             var registros = _unitOfWork.RegistroRepository.GetMany(c => c.IdUsuario == _idUsuario && c.IdItem == _idItem && c.Fecha >= _fechaInicial && c.Fecha <= _fechaFinal).ToList();
+            registros.OrderBy(x => x.Fecha).ThenBy(x => x.Hora);
 
             if (registros.Any())
             {
