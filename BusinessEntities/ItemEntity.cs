@@ -11,8 +11,8 @@ namespace BusinessEntities
     {
         public ItemEntity()
         {
-            this.Documento = new HashSet<Documento>();
-            this.Registro = new HashSet<Registro>();
+            //this.Documento = new HashSet<Documento>();
+            //this.Registro = new HashSet<Registro>();
         }
 
         public int IdItem { get; set; }
@@ -21,8 +21,8 @@ namespace BusinessEntities
         public string Placa { get; set; }
         public string Informacion { get; set; }
 
-        public virtual ICollection<Documento> Documento { get; set; }
-        public virtual Usuario Usuario { get; set; }
-        public virtual ICollection<Registro> Registro { get; set; }
+        //public virtual ICollection<Documento> Documento { get; set; }
+        //public virtual Usuario Usuario { get; set; }
+        //public virtual ICollection<Registro> Registro { get; set; }
     }
 }
