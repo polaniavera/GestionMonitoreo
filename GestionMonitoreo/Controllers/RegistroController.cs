@@ -47,7 +47,7 @@ namespace GestionMonitoreo.Controllers
         }
 
         // GET api/registro/5
-        [Authorize]
+        //[Authorize]
         public HttpResponseMessage Get(int id)
         {
             var registro = _registroServices.GetRegistroById(id);
