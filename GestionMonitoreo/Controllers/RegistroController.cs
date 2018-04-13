@@ -2,9 +2,11 @@
 using BusinessServices;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 
 namespace GestionMonitoreo.Controllers
@@ -186,6 +188,38 @@ namespace GestionMonitoreo.Controllers
                     return Request.CreateResponse(HttpStatusCode.OK, estacionesEntities);
             }
             return Request.CreateErrorResponse(HttpStatusCode.NotFound, "estaciones not found");
+        }
+
+        // GET api/file
+        [Route("file")]
+        public HttpResponseMessage GetFile()
+        {
+            string path = HttpContext.Current.Server.MapPath("~/App_Data/" + "download.pdf");
+            if (!File.Exists(path))
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "The file does not exist.");
+            }
+
+            try
+            {
+                MemoryStream responseStream = new MemoryStream();
+                Stream fileStream = File.Open(path, FileMode.Open);
+                bool fullContent = true;
+                
+                // No Range header. Return the complete file.
+                fileStream.CopyTo(responseStream);
+                fileStream.Close();
+                responseStream.Position = 0;
+
+                HttpResponseMessage response = new HttpResponseMessage();
+                response.StatusCode = fullContent ? HttpStatusCode.OK : HttpStatusCode.PartialContent;
+                response.Content = new StreamContent(responseStream);
+                return response;
+            }
+            catch (IOException)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "A generic error occured. Please try again later.");
+            }
         }
     }
 }
