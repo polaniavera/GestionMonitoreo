@@ -200,7 +200,7 @@ namespace GestionMonitoreo.Controllers
 
             if (!File.Exists(appRoot))
             {
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "The file does not exist.");
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "The file does not exist: " + appRoot);
             }
 
             try
