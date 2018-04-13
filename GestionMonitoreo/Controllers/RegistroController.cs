@@ -194,13 +194,11 @@ namespace GestionMonitoreo.Controllers
         [Route("file")]
         public HttpResponseMessage GetFile()
         {
-            string path = HttpContext.Current.Server.MapPath("~/App_Data/" + "download.pdf");
-            string appRoot = Environment.CurrentDirectory;
-            appRoot = Path.Combine(appRoot + @"\", @"App_Data\download.pdf");
+            string path = HttpContext.Current.Server.MapPath("~/download.pdf");
 
-            if (!File.Exists(appRoot))
+            if (!File.Exists(path))
             {
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "The file does not exist.");
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "The file does not exist: " + path);
             }
 
             try
@@ -208,7 +206,7 @@ namespace GestionMonitoreo.Controllers
                 MemoryStream responseStream = new MemoryStream();
                 Stream fileStream = File.Open(path, FileMode.Open);
                 bool fullContent = true;
-                
+
                 // No Range header. Return the complete file.
                 fileStream.CopyTo(responseStream);
                 fileStream.Close();
