@@ -206,7 +206,7 @@ namespace GestionMonitoreo.Controllers
             try
             {
                 MemoryStream responseStream = new MemoryStream();
-                Stream fileStream = File.Open(path, FileMode.Open);
+                Stream fileStream = File.Open(appRoot, FileMode.Open);
                 bool fullContent = true;
                 
                 // No Range header. Return the complete file.
