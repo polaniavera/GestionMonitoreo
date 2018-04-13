@@ -60,24 +60,31 @@ namespace BusinessServices
 
             for (int i = 0; i< registrosList.Count; i++)
             {
-                VehiculosEntity vehiculo = new VehiculosEntity
+                for (int j = 0; j < itemsList.Count; j++)
                 {
-                    IdItem = itemsList[i].IdItem,
-                    IdTipoItem = itemsList[i].IdTipoItem,
-                    IdRegistro = registrosList[i].IdRegistro,
-                    Placa = itemsList[i].Placa,
-                    Informacion = itemsList[i].Informacion,
-                    Latitud = registrosList[i].Latitud,
-                    Longitud = registrosList[i].Longitud,
-                    TanqueConductor = registrosList[i].TanqueConductor,
-                    TanquePasajero = registrosList[i].TanquePasajero,
-                    BotonPanico = registrosList[i].BotonPanico,
-                    Kilometraje = registrosList[i].Kilometraje,
-                    Velocidad = registrosList[i].Velocidad,
-                    Fecha = registrosList[i].Fecha,
-                    Hora = registrosList[i].Hora,
-                };
-                vehiculos.Add(vehiculo);
+                    if (registrosList[i].IdItem == itemsList[j].IdItem)
+                    {
+                        VehiculosEntity vehiculo = new VehiculosEntity
+                        {
+                            IdItem = itemsList[j].IdItem,
+                            IdTipoItem = itemsList[j].IdTipoItem,
+                            IdRegistro = registrosList[i].IdRegistro,
+                            Placa = itemsList[j].Placa,
+                            Informacion = itemsList[j].Informacion,
+                            Latitud = registrosList[i].Latitud,
+                            Longitud = registrosList[i].Longitud,
+                            TanqueConductor = registrosList[i].TanqueConductor,
+                            TanquePasajero = registrosList[i].TanquePasajero,
+                            BotonPanico = registrosList[i].BotonPanico,
+                            Kilometraje = registrosList[i].Kilometraje,
+                            Velocidad = registrosList[i].Velocidad,
+                            Fecha = registrosList[i].Fecha,
+                            Hora = registrosList[i].Hora,
+                        };
+                        vehiculos.Add(vehiculo);
+                        break;
+                    }
+                }
             }
 
             return vehiculos;
