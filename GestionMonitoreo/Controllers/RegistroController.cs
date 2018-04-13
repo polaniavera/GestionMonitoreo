@@ -194,9 +194,11 @@ namespace GestionMonitoreo.Controllers
         [Route("file")]
         public HttpResponseMessage GetFile()
         {
-            //string path = HttpContext.Current.Server.MapPath("~/App_Data/" + "download.pdf");
-            string path = HttpContext.Current.Server.MapPath("App_Data/" + "download.pdf");
-            if (!File.Exists(path))
+            string path = HttpContext.Current.Server.MapPath("~/App_Data/" + "download.pdf");
+            string appRoot = Environment.CurrentDirectory;
+            appRoot = Path.Combine(appRoot + @"\", @"App_Data\download.pdf");
+
+            if (!File.Exists(appRoot))
             {
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, "The file does not exist.");
             }
