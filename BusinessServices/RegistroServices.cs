@@ -104,6 +104,47 @@ namespace BusinessServices
                 return registro.IdRegistro;
             }
         }
+        
+        /// <summary>
+        /// Creates a registro
+        /// </summary>
+        /// <param name="registroEntity"></param>
+        /// <returns></returns>
+        public int CreateMultiRegistro(List<RegistroEntity> listRegistroEntity)
+        {
+            int conteo = 0;
+            for (int i = 0; i < listRegistroEntity.Count; i++)
+            {
+                //listRegistroEntity[i] = formatTimeCreate(listRegistroEntity[i]);
+
+                using (var scope = new TransactionScope())
+                {
+                    var registro = new Registro
+                    {
+                        BotonPanico = listRegistroEntity[i].BotonPanico,
+                        Fecha = DateTime.Parse(listRegistroEntity[i].Fecha),
+                        Hora = listRegistroEntity[i].Hora,
+                        IdItem = listRegistroEntity[i].IdItem,
+                        IdRegistro = listRegistroEntity[i].IdRegistro,
+                        IdUsuario = listRegistroEntity[i].IdUsuario,
+                        Item = listRegistroEntity[i].Item,
+                        Kilometraje = listRegistroEntity[i].Kilometraje,
+                        Latitud = listRegistroEntity[i].Latitud,
+                        Longitud = listRegistroEntity[i].Longitud,
+                        TanqueConductor = listRegistroEntity[i].TanqueConductor,
+                        TanquePasajero = listRegistroEntity[i].TanquePasajero,
+                        Usuario = listRegistroEntity[i].Usuario,
+                        Velocidad = listRegistroEntity[i].Velocidad
+                    };
+                    _unitOfWork.RegistroRepository.Insert(registro);
+                    _unitOfWork.Save();
+                    conteo++;
+                    scope.Complete();
+                }
+            }
+            return conteo;
+        }
+
 
         /// <summary>
         /// Updates a registro

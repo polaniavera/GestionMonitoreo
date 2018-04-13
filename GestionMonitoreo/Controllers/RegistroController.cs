@@ -157,6 +157,17 @@ namespace GestionMonitoreo.Controllers
             return 0;
         }
 
+        // POST api/registro/createmulti
+        [Route("createmulti")]
+        public int PostMulti([FromBody] List<RegistroEntity> listRegistroEntity)
+        {
+            if (listRegistroEntity != null)
+            {
+                return _registroServices.CreateMultiRegistro(listRegistroEntity);
+            }
+            return 0;
+        }
+
         // PUT api/registro/5
         public bool Put(int id, [FromBody]RegistroEntity registroEntity)
         {
