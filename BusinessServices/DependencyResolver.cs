@@ -13,6 +13,7 @@ namespace BusinessServices
             registerComponent.RegisterType<IRegistroServices, RegistroServices>();
             registerComponent.RegisterType<IItemServices, ItemServices>();
             registerComponent.RegisterType<IUsuarioServices, UsuarioServices>();
+            registerComponent.RegisterType<IGrupoServices, GrupoServices>();
         }
     }
 }
