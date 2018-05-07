@@ -1,17 +1,9 @@
-﻿using DataModel;
-using System;
-using System.Collections.Generic;
-
-namespace BusinessEntities
+﻿namespace BusinessEntities
 {
+    using System;
+
     public partial class UsuarioEntity
     {
-        public UsuarioEntity()
-        {
-            this.Item = new HashSet<Item>();
-            this.Registro = new HashSet<Registro>();
-        }
-
         public int IdUsuario { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
@@ -22,8 +14,5 @@ namespace BusinessEntities
         public Nullable<bool> IsActive { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public string Username { get; set; }
-
-        public virtual ICollection<Item> Item { get; set; }
-        public virtual ICollection<Registro> Registro { get; set; }
     }
 }

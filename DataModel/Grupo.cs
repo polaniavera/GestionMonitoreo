@@ -12,24 +12,19 @@ namespace DataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class Item
+    public partial class Grupo
     {
-        public Item()
+        public Grupo()
         {
-            this.Documento = new HashSet<Documento>();
-            this.Registro = new HashSet<Registro>();
+            this.Item = new HashSet<Item>();
         }
     
-        public int IdItem { get; set; }
+        public int IdGrupo { get; set; }
         public Nullable<int> IdUsuario { get; set; }
-        public Nullable<int> IdTipoItem { get; set; }
-        public string Placa { get; set; }
-        public string Informacion { get; set; }
-        public Nullable<int> IdGrupo { get; set; }
+        public string Nombre { get; set; }
+        public Nullable<bool> IsActive { get; set; }
     
-        public virtual ICollection<Documento> Documento { get; set; }
         public virtual Usuario Usuario { get; set; }
-        public virtual ICollection<Registro> Registro { get; set; }
-        public virtual Grupo Grupo { get; set; }
+        public virtual ICollection<Item> Item { get; set; }
     }
 }

@@ -18,6 +18,7 @@ namespace DataModel
         {
             this.Item = new HashSet<Item>();
             this.Registro = new HashSet<Registro>();
+            this.Grupo = new HashSet<Grupo>();
         }
     
         public int IdUsuario { get; set; }
@@ -33,5 +34,6 @@ namespace DataModel
     
         public virtual ICollection<Item> Item { get; set; }
         public virtual ICollection<Registro> Registro { get; set; }
+        public virtual ICollection<Grupo> Grupo { get; set; }
     }
 }

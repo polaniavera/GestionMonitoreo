@@ -22,6 +22,7 @@ namespace DataModel.UnitOfWork
         private GenericRepository<Usuario> _usuarioRepository;
         private GenericRepository<Item> _itemRepository;
         private GenericRepository<Documento> _documentoRepository;
+        private GenericRepository<Grupo> _grupoRepository;
         private GenericRepository<IotTemperatura> _iotTemperaturaRepository;
         private GenericRepository<Estaciones> _estacionesRepository;
         private RegistroCustomRepository _registroCustomRepository; 
@@ -111,6 +112,18 @@ namespace DataModel.UnitOfWork
             }
         }
 
+        /// <summary>
+        /// Get/Set Property for grupo repository.
+        /// </summary>
+        public GenericRepository<Grupo> GrupoRepository
+        {
+            get
+            {
+                if (this._grupoRepository == null)
+                    this._grupoRepository = new GenericRepository<Grupo>(_context);
+                return _grupoRepository;
+            }
+        }
 
         /// <summary>
         /// Get/Set Property for registro repository custom.

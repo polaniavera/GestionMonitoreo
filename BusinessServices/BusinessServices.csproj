@@ -53,7 +53,9 @@
   <ItemGroup>
     <Compile Include="DependencyResolver.cs" />
     <Compile Include="EstacionesServices.cs" />
+    <Compile Include="GrupoServices.cs" />
     <Compile Include="IEstacionesServices.cs" />
+    <Compile Include="IGrupoServices.cs" />
     <Compile Include="IIotServices.cs" />
     <Compile Include="IItemServices.cs" />
     <Compile Include="IotServices.cs" />

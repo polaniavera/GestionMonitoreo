@@ -27,6 +27,15 @@
           <Property Name="Departamento" Type="varchar" MaxLength="50" />
           <Property Name="Municipio" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="Grupo">
+          <Key>
+            <PropertyRef Name="IdGrupo" />
+          </Key>
+          <Property Name="IdGrupo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdUsuario" Type="int" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
         <EntityType Name="IotTemperatura">
           <Key>
             <PropertyRef Name="Id" />
@@ -46,6 +55,7 @@
           <Property Name="IdTipoItem" Type="int" />
           <Property Name="Placa" Type="varchar" MaxLength="50" />
           <Property Name="Informacion" Type="varchar" MaxLength="50" />
+          <Property Name="IdGrupo" Type="int" />
         </EntityType>
         <EntityType Name="Registro">
           <Key>
@@ -91,6 +101,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Grupo_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Grupo" Type="Self.Grupo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Grupo">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Item_Grupo">
+          <End Role="Grupo" Type="Self.Grupo" Multiplicity="0..1" />
+          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Grupo">
+              <PropertyRef Name="IdGrupo" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="IdGrupo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Item_Usuario">
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
           <End Role="Item" Type="Self.Item" Multiplicity="*" />
@@ -133,6 +167,7 @@
         <EntityContainer Name="MonitoreoDbModelStoreContainer">
           <EntitySet Name="Documento" EntityType="Self.Documento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Estaciones" EntityType="Self.Estaciones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Grupo" EntityType="Self.Grupo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IotTemperatura" EntityType="Self.IotTemperatura" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Item" EntityType="Self.Item" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Registro" EntityType="Self.Registro" Schema="dbo" store:Type="Tables" />
@@ -140,6 +175,14 @@
           <AssociationSet Name="FK_Documento_Item" Association="Self.FK_Documento_Item">
             <End Role="Item" EntitySet="Item" />
             <End Role="Documento" EntitySet="Documento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Grupo_Usuario" Association="Self.FK_Grupo_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Grupo" EntitySet="Grupo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Item_Grupo" Association="Self.FK_Item_Grupo">
+            <End Role="Grupo" EntitySet="Grupo" />
+            <End Role="Item" EntitySet="Item" />
           </AssociationSet>
           <AssociationSet Name="FK_Item_Usuario" Association="Self.FK_Item_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
@@ -181,6 +224,8 @@
           <NavigationProperty Name="Documento" Relationship="Self.FK_Documento_Item" FromRole="Item" ToRole="Documento" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Item_Usuario" FromRole="Item" ToRole="Usuario" />
           <NavigationProperty Name="Registro" Relationship="Self.FK_Registro_Item" FromRole="Item" ToRole="Registro" />
+          <Property Name="IdGrupo" Type="Int32" />
+          <NavigationProperty Name="Grupo" Relationship="MonitoreoDbModel.FK_Item_Grupo" FromRole="Item" ToRole="Grupo" />
         </EntityType>
         <EntityType Name="Registro">
           <Key>
@@ -217,6 +262,7 @@
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="Username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Grupo" Relationship="MonitoreoDbModel.FK_Grupo_Usuario" FromRole="Usuario" ToRole="Grupo" />
         </EntityType>
         <Association Name="FK_Documento_Item">
           <End Role="Item" Type="Self.Item" Multiplicity="0..1" />
@@ -292,6 +338,15 @@
           </FunctionImport>
           <EntitySet Name="IotTemperatura" EntityType="MonitoreoDbModel.IotTemperatura" />
           <EntitySet Name="Estaciones" EntityType="MonitoreoDbModel.Estaciones" />
+          <EntitySet Name="Grupo" EntityType="MonitoreoDbModel.Grupo" />
+          <AssociationSet Name="FK_Grupo_Usuario" Association="MonitoreoDbModel.FK_Grupo_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Grupo" EntitySet="Grupo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Item_Grupo" Association="MonitoreoDbModel.FK_Item_Grupo">
+            <End Role="Grupo" EntitySet="Grupo" />
+            <End Role="Item" EntitySet="Item" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="getMaximaLectura_Result">
           <Property Type="Int32" Name="IdRegistro" Nullable="false" />
@@ -329,6 +384,41 @@
           <Property Name="Departamento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Municipio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="Grupo">
+          <Key>
+            <PropertyRef Name="IdGrupo" />
+          </Key>
+          <Property Name="IdGrupo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdUsuario" Type="Int32" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="Usuario" Relationship="MonitoreoDbModel.FK_Grupo_Usuario" FromRole="Grupo" ToRole="Usuario" />
+          <NavigationProperty Name="Item" Relationship="MonitoreoDbModel.FK_Item_Grupo" FromRole="Grupo" ToRole="Item" />
+        </EntityType>
+        <Association Name="FK_Grupo_Usuario">
+          <End Type="MonitoreoDbModel.Usuario" Role="Usuario" Multiplicity="0..1" />
+          <End Type="MonitoreoDbModel.Grupo" Role="Grupo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Grupo">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Item_Grupo">
+          <End Type="MonitoreoDbModel.Grupo" Role="Grupo" Multiplicity="0..1" />
+          <End Type="MonitoreoDbModel.Item" Role="Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Grupo">
+              <PropertyRef Name="IdGrupo" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="IdGrupo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -349,6 +439,7 @@
           <EntitySetMapping Name="Item">
             <EntityTypeMapping TypeName="MonitoreoDbModel.Item">
               <MappingFragment StoreEntitySet="Item">
+                <ScalarProperty Name="IdGrupo" ColumnName="IdGrupo" />
                 <ScalarProperty Name="IdItem" ColumnName="IdItem" />
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
                 <ScalarProperty Name="IdTipoItem" ColumnName="IdTipoItem" />
@@ -430,6 +521,16 @@
                 <ScalarProperty Name="Operadora" ColumnName="Operadora" />
                 <ScalarProperty Name="Campo" ColumnName="Campo" />
                 <ScalarProperty Name="IdEstacion" ColumnName="IdEstacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Grupo">
+            <EntityTypeMapping TypeName="MonitoreoDbModel.Grupo">
+              <MappingFragment StoreEntitySet="Grupo">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IdGrupo" ColumnName="IdGrupo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
