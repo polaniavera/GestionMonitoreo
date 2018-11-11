@@ -51,14 +51,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConductorServices.cs" />
     <Compile Include="DependencyResolver.cs" />
     <Compile Include="EstacionesServices.cs" />
     <Compile Include="GrupoServices.cs" />
+    <Compile Include="IConductorServices.cs" />
     <Compile Include="IEstacionesServices.cs" />
     <Compile Include="IGrupoServices.cs" />
-    <Compile Include="IIotServices.cs" />
     <Compile Include="IItemServices.cs" />
-    <Compile Include="IotServices.cs" />
     <Compile Include="IRegistroServices.cs" />
     <Compile Include="ItemServices.cs" />
     <Compile Include="IUsuarioServices.cs" />

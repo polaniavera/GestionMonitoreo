@@ -21,7 +21,6 @@ namespace DataModel
         public MonitoreoDbEntities()
             : base("name=MonitoreoDbEntities")
         {
-            base.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -33,9 +32,9 @@ namespace DataModel
         public DbSet<Item> Item { get; set; }
         public DbSet<Registro> Registro { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
-        public DbSet<IotTemperatura> IotTemperatura { get; set; }
         public DbSet<Estaciones> Estaciones { get; set; }
         public DbSet<Grupo> Grupo { get; set; }
+        public DbSet<Conductor> Conductor { get; set; }
     
         public virtual ObjectResult<getMaximaLectura_Result> getMaximaLectura(Nullable<int> idUsuario)
         {

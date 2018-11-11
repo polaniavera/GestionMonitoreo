@@ -12,12 +12,18 @@ namespace DataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class IotTemperatura
+    public partial class Conductor
     {
-        public int Id { get; set; }
-        public Nullable<int> IdIot { get; set; }
-        public Nullable<int> Temperatura { get; set; }
-        public Nullable<System.DateTime> Fecha { get; set; }
-        public Nullable<System.TimeSpan> Hora { get; set; }
+        public int IdConductor { get; set; }
+        public Nullable<int> IdUsuario { get; set; }
+        public string Nombre { get; set; }
+        public string Apellido { get; set; }
+        public Nullable<decimal> Telefono { get; set; }
+        public string Direccion { get; set; }
+        public string Licencia { get; set; }
+        public string Clase { get; set; }
+        public Nullable<System.DateTime> FechaExpiracion { get; set; }
+    
+        public virtual Usuario Usuario { get; set; }
     }
 }

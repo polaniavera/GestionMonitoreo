@@ -13,11 +13,12 @@
         <AssociationConnector Association="MonitoreoDbModel.FK_Item_Usuario" ManuallyRouted="false" />
         <AssociationConnector Association="MonitoreoDbModel.FK_Registro_Item" ManuallyRouted="false" />
         <AssociationConnector Association="MonitoreoDbModel.FK_Registro_Usuario" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="MonitoreoDbModel.IotTemperatura" Width="1.5" PointX="3.375" PointY="6.75" />
         <EntityTypeShape EntityType="MonitoreoDbModel.Estaciones" Width="1.5" PointX="5.375" PointY="6.75" />
         <EntityTypeShape EntityType="MonitoreoDbModel.Grupo" Width="1.5" PointX="3" PointY="0.75" />
         <AssociationConnector Association="MonitoreoDbModel.FK_Grupo_Usuario" />
         <AssociationConnector Association="MonitoreoDbModel.FK_Item_Grupo" />
+        <EntityTypeShape EntityType="MonitoreoDbModel.Conductor" Width="1.5" PointX="3" PointY="9.625" />
+        <AssociationConnector Association="MonitoreoDbModel.FK_Conductor_Usuario" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

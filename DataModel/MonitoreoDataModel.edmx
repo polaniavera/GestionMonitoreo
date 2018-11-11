@@ -5,6 +5,20 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="MonitoreoDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Conductor">
+          <Key>
+            <PropertyRef Name="IdConductor" />
+          </Key>
+          <Property Name="IdConductor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdUsuario" Type="int" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="Apellido" Type="varchar" MaxLength="50" />
+          <Property Name="Telefono" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Direccion" Type="varchar" MaxLength="50" />
+          <Property Name="Licencia" Type="varchar" MaxLength="50" />
+          <Property Name="Clase" Type="varchar" MaxLength="50" />
+          <Property Name="FechaExpiracion" Type="date" />
+        </EntityType>
         <EntityType Name="Documento">
           <Key>
             <PropertyRef Name="IdDocumento" />
@@ -35,16 +49,6 @@
           <Property Name="IdUsuario" Type="int" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" />
           <Property Name="IsActive" Type="bit" />
-        </EntityType>
-        <EntityType Name="IotTemperatura">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="IdIot" Type="int" />
-          <Property Name="Temperatura" Type="int" />
-          <Property Name="Fecha" Type="date" />
-          <Property Name="Hora" Type="time" Precision="7" />
         </EntityType>
         <EntityType Name="Item">
           <Key>
@@ -85,10 +89,22 @@
           <Property Name="Empresa" Type="varchar" MaxLength="50" />
           <Property Name="Correo" Type="varchar" MaxLength="50" />
           <Property Name="Password" Type="varchar(max)" />
+          <Property Name="Username" Type="varchar(max)" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="CreateDate" Type="datetime" />
-          <Property Name="Username" Type="varchar(max)" />
         </EntityType>
+        <Association Name="FK_Conductor_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Conductor" Type="Self.Conductor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Conductor">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Documento_Item">
           <End Role="Item" Type="Self.Item" Multiplicity="0..1" />
           <End Role="Documento" Type="Self.Documento" Multiplicity="*" />
@@ -165,13 +181,17 @@
           <Parameter Name="idUsuario" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="MonitoreoDbModelStoreContainer">
+          <EntitySet Name="Conductor" EntityType="Self.Conductor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Documento" EntityType="Self.Documento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Estaciones" EntityType="Self.Estaciones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Grupo" EntityType="Self.Grupo" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="IotTemperatura" EntityType="Self.IotTemperatura" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Item" EntityType="Self.Item" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Registro" EntityType="Self.Registro" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Conductor_Usuario" Association="Self.FK_Conductor_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Conductor" EntitySet="Conductor" />
+          </AssociationSet>
           <AssociationSet Name="FK_Documento_Item" Association="Self.FK_Documento_Item">
             <End Role="Item" EntitySet="Item" />
             <End Role="Documento" EntitySet="Documento" />
@@ -263,6 +283,7 @@
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="Username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Grupo" Relationship="MonitoreoDbModel.FK_Grupo_Usuario" FromRole="Usuario" ToRole="Grupo" />
+          <NavigationProperty Name="Conductor" Relationship="MonitoreoDbModel.FK_Conductor_Usuario" FromRole="Usuario" ToRole="Conductor" />
         </EntityType>
         <Association Name="FK_Documento_Item">
           <End Role="Item" Type="Self.Item" Multiplicity="0..1" />
@@ -336,7 +357,6 @@
           <FunctionImport Name="getMaximaLectura" ReturnType="Collection(MonitoreoDbModel.getMaximaLectura_Result)">
           <Parameter Name="idUsuario" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="IotTemperatura" EntityType="MonitoreoDbModel.IotTemperatura" />
           <EntitySet Name="Estaciones" EntityType="MonitoreoDbModel.Estaciones" />
           <EntitySet Name="Grupo" EntityType="MonitoreoDbModel.Grupo" />
           <AssociationSet Name="FK_Grupo_Usuario" Association="MonitoreoDbModel.FK_Grupo_Usuario">
@@ -346,6 +366,11 @@
           <AssociationSet Name="FK_Item_Grupo" Association="MonitoreoDbModel.FK_Item_Grupo">
             <End Role="Grupo" EntitySet="Grupo" />
             <End Role="Item" EntitySet="Item" />
+          </AssociationSet>
+          <EntitySet Name="Conductor" EntityType="MonitoreoDbModel.Conductor" />
+          <AssociationSet Name="FK_Conductor_Usuario" Association="MonitoreoDbModel.FK_Conductor_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Conductor" EntitySet="Conductor" />
           </AssociationSet>
         </EntityContainer>
         <ComplexType Name="getMaximaLectura_Result">
@@ -362,16 +387,6 @@
           <Property Type="DateTime" Name="Fecha" Nullable="true" />
           <Property Type="Time" Name="Hora" Nullable="true" />
         </ComplexType>
-        <EntityType Name="IotTemperatura">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdIot" Type="Int32" />
-          <Property Name="Temperatura" Type="Int32" />
-          <Property Name="Fecha" Type="DateTime" Precision="0" />
-          <Property Name="Hora" Type="Time" Precision="7" />
-        </EntityType>
         <EntityType Name="Estaciones">
           <Key>
             <PropertyRef Name="IdEstacion" />
@@ -416,6 +431,33 @@
             </Principal>
             <Dependent Role="Item">
               <PropertyRef Name="IdGrupo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Conductor">
+          <Key>
+            <PropertyRef Name="IdConductor" />
+          </Key>
+          <Property Name="IdConductor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdUsuario" Type="Int32" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Licencia" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Clase" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaExpiracion" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Usuario" Relationship="MonitoreoDbModel.FK_Conductor_Usuario" FromRole="Conductor" ToRole="Usuario" />
+        </EntityType>
+        <Association Name="FK_Conductor_Usuario">
+          <End Type="MonitoreoDbModel.Usuario" Role="Usuario" Multiplicity="0..1" />
+          <End Type="MonitoreoDbModel.Conductor" Role="Conductor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Conductor">
+              <PropertyRef Name="IdUsuario" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -500,17 +542,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="IotTemperatura">
-            <EntityTypeMapping TypeName="MonitoreoDbModel.IotTemperatura">
-              <MappingFragment StoreEntitySet="IotTemperatura">
-                <ScalarProperty Name="Hora" ColumnName="Hora" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Temperatura" ColumnName="Temperatura" />
-                <ScalarProperty Name="IdIot" ColumnName="IdIot" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Estaciones">
             <EntityTypeMapping TypeName="MonitoreoDbModel.Estaciones">
               <MappingFragment StoreEntitySet="Estaciones">
@@ -531,6 +562,21 @@
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
                 <ScalarProperty Name="IdGrupo" ColumnName="IdGrupo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Conductor">
+            <EntityTypeMapping TypeName="MonitoreoDbModel.Conductor">
+              <MappingFragment StoreEntitySet="Conductor">
+                <ScalarProperty Name="FechaExpiracion" ColumnName="FechaExpiracion" />
+                <ScalarProperty Name="Clase" ColumnName="Clase" />
+                <ScalarProperty Name="Licencia" ColumnName="Licencia" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IdConductor" ColumnName="IdConductor" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

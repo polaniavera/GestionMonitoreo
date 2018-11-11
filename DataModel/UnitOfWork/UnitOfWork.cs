@@ -23,8 +23,8 @@ namespace DataModel.UnitOfWork
         private GenericRepository<Item> _itemRepository;
         private GenericRepository<Documento> _documentoRepository;
         private GenericRepository<Grupo> _grupoRepository;
-        private GenericRepository<IotTemperatura> _iotTemperaturaRepository;
         private GenericRepository<Estaciones> _estacionesRepository;
+        private GenericRepository<Conductor> _conductorRepository;
         private RegistroCustomRepository _registroCustomRepository; 
         #endregion
 
@@ -88,18 +88,6 @@ namespace DataModel.UnitOfWork
         }
 
         /// <summary>
-        /// Get/Set Property for IotTemperatura repository.
-        /// </summary>
-        public GenericRepository<IotTemperatura> IotTemperaturaRepository
-        {
-            get
-            {
-                if (this._iotTemperaturaRepository == null)
-                    this._iotTemperaturaRepository = new GenericRepository<IotTemperatura>(_context);
-                return _iotTemperaturaRepository;
-            }
-        }
-        /// <summary>
         /// Get/Set Property for Estaciones repository.
         /// </summary>
         public GenericRepository<Estaciones> EstacionesRepository
@@ -122,6 +110,19 @@ namespace DataModel.UnitOfWork
                 if (this._grupoRepository == null)
                     this._grupoRepository = new GenericRepository<Grupo>(_context);
                 return _grupoRepository;
+            }
+        }
+
+        /// <summary>
+        /// Get/Set Property for Conductor repository.
+        /// </summary>
+        public GenericRepository<Conductor> ConductorRepository
+        {
+            get
+            {
+                if (this._conductorRepository == null)
+                    this._conductorRepository = new GenericRepository<Conductor>(_context);
+                return _conductorRepository;
             }
         }
 
